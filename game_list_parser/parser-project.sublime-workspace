@@ -103,26 +103,8 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "test",
-			"settings":
-			{
-				"buffer_size": 724,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/D/git/Gamers/README.md",
-			"settings":
-			{
-				"buffer_size": 65,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		}
 	],
-	"build_system": "Anaconda Python Builder",
+	"build_system": "Packages/Python/Python.sublime-build",
 	"build_system_choices":
 	[
 		[
@@ -158,6 +140,26 @@
 				[
 					"Packages/Python/Python.sublime-build",
 					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/SublimeREPL/sublimerepl_build_system_hack.sublime-build",
+					""
 				]
 			],
 			[
@@ -239,18 +241,16 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
-	"expanded_folders":
-	[
-		"/D/git/Gamers/game_list_parser"
-	],
 	"file_history":
 	[
+		"/D/git/Gamers/game_list_parser/test.py",
+		"/D/git/Gamers/README.md",
+		"/D/git/Gamers/game_list_parser/test",
 		"/D/git/Gamers/game_list_parser/parser-project.sublime-project",
 		"/C/Users/leedo/AppData/Roaming/Sublime Text 3/Packages/User/Python.sublime-settings",
 		"/C/Users/leedo/AppData/Roaming/Sublime Text 3/Packages/User/Anaconda.sublime-settings",
 		"/C/Users/leedo/AppData/Roaming/Sublime Text 3/Packages/Anaconda/Anaconda.sublime-settings",
 		"/C/Users/leedo/AppData/Local/Programs/Python/Python36/lib/urllib/__init__.py",
-		"/D/git/Gamers/README.md",
 		"/C/Users/leedo/AppData/Roaming/Sublime Text 3/Packages/User/SublimeLinter.sublime-settings",
 		"/C/Users/leedo/AppData/Roaming/Sublime Text 3/Packages/SublimeLinter/SublimeLinter.sublime-settings",
 		"/C/Users/leedo/AppData/Roaming/Sublime Text 3/Installed Packages/SublimeLinter-pyflakes.sublime-package",
@@ -408,100 +408,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "test",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 724,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								723,
-								723
-							]
-						],
-						"settings":
-						{
-							"auto_complete_triggers":
-							[
-								{
-									"characters": ".",
-									"selector": "source.python - string - comment - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								},
-								{
-									"characters": ".",
-									"selector": "source.python - string - constant.numeric"
-								}
-							],
-							"incomplete_sync": null,
-							"syntax": "Packages/Python/Python.sublime-syntax"
-						},
-						"translation.x": 53.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/D/git/Gamers/README.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 65,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								65,
-								65
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				}
 			]
 		}
 	],
