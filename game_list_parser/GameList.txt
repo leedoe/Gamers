@@ -1,4 +1,4 @@
-FOR HONOR™
+﻿FOR HONOR™
 Grand Theft Auto V
 Counter-Strike: Global Offensive
 H1Z1: King of the Kill
@@ -26231,4 +26231,8 @@ Heroine Anthem Zero Collector's Edition
 Time Mysteries Collection
 Farming Simulator 17 - KUHN Equipment Pack
 Where Angels Cry Bundle
+<<<<<<< HEAD
 Sacred Franchise Pack
+=======
+Sacred Franchise Pack
+>>>>>>> 45894c593156de274d071e7e881c668c186ff644

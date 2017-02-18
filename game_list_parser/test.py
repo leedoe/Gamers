@@ -2,6 +2,7 @@
 import urllib.request
 import codecs
 import json
+import re
 from bs4 import BeautifulSoup
 
 file = codecs.open("GameList.txt", 'a', 'utf-8')
@@ -117,7 +118,7 @@ for item in data['applist']['apps']:
 # game list in steam
 req = None
 
-for i in range(1, 1051):
+for i in range(1, 1097):
     print(i)
     req = urllib.request.Request(
         'http://store.steampowered.com/search/?page=' + str(i),
@@ -126,6 +127,8 @@ for i in range(1, 1051):
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393'
         }
     )
+    proxy_host = '154.16.126.94'
+    req.set_proxy(proxy_host, 'http')
 
     f = urllib.request.urlopen(req).read().decode('utf-8')
 
@@ -136,4 +139,24 @@ for i in range(1, 1051):
 
     for item in bs:
         title = item.find('span', class_='title')
-        file.write(title.text + '\n')
+        # file.write(title.text + '\n')
+        print(title.text, end="-----")
+        print(item['data-ds-appid'], end="-----")
+
+        req2 = urllib.request.Request(
+            'http://store.steampowered.com/app/' + str(item['data-ds-appid']),
+            data=None,
+            headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393',
+                'cookie': 'browserid=1344725717332693116; sessionid=adcfbe925844f84782bd1577; strResponsiveViewPrefs=touch; birthtime=678985201; lastagecheckage=9-July-1991; recentapps=%7B%22271590%22%3A1487220706%7D; timezoneOffset=32400,0; _ga=GA1.2.657082707.1487220674; mature_content=1'
+            }
+        )
+        req2.set_proxy(proxy_host, 'http')
+
+        f = urllib.request.urlopen(req2).read().decode('utf-8')
+        bs = BeautifulSoup(f, 'lxml').find_all('div', class_='details_block')
+
+        # print("relase date: " + str(bs))
+        genre = bs[0].find_all('a', attrs={'href': re.compile('http://store.steampowered.com/genre/[a-zA-Z0-9.]*/?[a-zA-Z0-9]*')})
+        # print(bs)
+        print(genre) 
