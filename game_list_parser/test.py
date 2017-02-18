@@ -2,6 +2,7 @@
 import urllib.request
 import codecs
 import json
+import re
 from bs4 import BeautifulSoup
 
 file = codecs.open("GameList.txt", 'a', 'utf-8')
@@ -153,5 +154,35 @@ for i in range(1, 1097):
         #req2.set_proxy(proxy_host, 'http')
 
         f = urllib.request.urlopen(req2).read().decode('utf-8')
-        bs = BeautifulSoup(f, 'lxml').find_all('span', class_='date')
-        print("relase date: " + str(bs))
+        bs = BeautifulSoup(f, 'lxml').select('div.details_block')
+
+        if len(bs) == 5:
+            bs = bs[3]
+        else:
+            bs = bs[0]
+
+        print(bs)
+
+
+
+        genre = bs.find_all('a', {"href": re.compile('http://store.steampowered.com/genre/[.]*')})
+        developer = bs.find_all('a', {"href": re.compile('http://store.steampowered.com/search/?developer[. ]*')})
+        publisher = bs.find_all('a', {"href": re.compile('http://store.steampowered.com/search/?publisher[. ]*')})
+
+        """
+        print('GENRE: ', end='')
+        for genreName in genre:
+            print(genreName.text, end=", ")
+
+        print('DEVELOPER: ', end='')
+        for developerName in developer:
+            print(developerName.text, end=', ')
+
+        print('PUBLISHER: ', end='')    
+        for publisherName in publisher:
+            print(publisherName.text, end=', ')
+        """
+
+        print(genre)
+        print(developer)
+        print(publisher)
