@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',#social-auth-app-django
     'Gamers',
 ]
 
@@ -66,13 +67,39 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # social-auth-app-django
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
 
+
 WSGI_APPLICATION = 'reviewer.wsgi.application'
 
+#social-auth-app-django
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.yahoo.YahooOpenId',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1851558021782877'
+SOCIAL_AUTH_FACEBOOK_SECRET = '76198425f32898c2c51ecfe8d0a5c33b'
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/logged-in/'
+SOCIAL_AUTH_LOGIN_URL = '/login-url/'
+
+SOCIAL_AUTH_USER_MODEL = 'Gamers.Gamer'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
