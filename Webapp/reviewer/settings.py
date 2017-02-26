@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social_django',#social-auth-app-django
+    # social-auth-app-django
+    'social_django',
     'Gamers',
 ]
 
@@ -75,7 +76,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'reviewer.wsgi.application'
 
-#social-auth-app-django
+# social-auth-app-django
 AUTHENTICATION_BACKENDS = (
     # 'social_core.backends.open_id.OpenIdAuth',
     # 'social_core.backends.google.GoogleOpenId',
@@ -94,7 +95,9 @@ LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_FACEBOOK_KEY = '1851558021782877'
 SOCIAL_AUTH_FACEBOOK_SECRET = '76198425f32898c2c51ecfe8d0a5c33b'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-
+SOCAIL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, name'
+}
 
 # SOCIAL_AUTH_USER_MODEL = 'Gamers.Gamer'
 
