@@ -7,9 +7,9 @@ from django.contrib.auth.models import User
 class Developer(models.Model):
     game = models.ForeignKey(
         'Game',
-        on_delete = models.CASCADE,
-        )
-    developer_name = models.CharField(max_length = 100)
+        on_delete=models.CASCADE,
+    )
+    developer_name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.developer_name
@@ -18,9 +18,9 @@ class Developer(models.Model):
 class Publisher(models.Model):
     game = models.ForeignKey(
         'Game',
-        on_delete = models.CASCADE
-        )
-    publisher_name = models.CharField(max_length = 100)
+        on_delete=models.CASCADE
+    )
+    publisher_name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.publisher_name
@@ -39,12 +39,12 @@ class Platform(models.Model):
     )
     game = models.ForeignKey(
         'Game',
-        on_delete = models.CASCADE
-        )
+        on_delete=models.CASCADE
+    )
     publisher_name = models.CharField(
-        max_length = 20,
-        choices = PLATFORM_LIST_CHOICES,
-        )
+        max_length=20,
+        choices=PLATFORM_LIST_CHOICES,
+    )
 
     def __str__(self):
         return self.publisher_name
@@ -53,23 +53,24 @@ class Platform(models.Model):
 class Genre(models.Model):
     game = models.ForeignKey(
         'Game',
-        on_delete = models.CASCADE
-        )
-    genre_name = models.CharField(max_length = 20)
+        on_delete=models.CASCADE
+    )
+    genre_name = models.CharField(max_length=20)
 
 
 class Pictures(models.Model):
     game = models.ForeignKey(
         'Game',
-        on_delete = models.CASCADE
-        )
+        on_delete=models.CASCADE
+    )
     picture_url = models.URLField()
 
 
 class Game(models.Model):
-    name = models.CharField(max_length = 100)
+    name = models.CharField(max_length=100)
     release_date = models.DateTimeField()
     homepage = models.URLField()
+    steam_id = models.IntegerField(null=True)
 
     def __str__(self):
         return self.title
