@@ -5,5 +5,11 @@ from django.template.context import RequestContext
 
 
 def test(request):
-    user = request.user
-    return render(request, 'Gamers/test.html', {'user': user})
+	user = request.user
+	
+	try:
+		facebook_login = user.social_auth.get(provider='facebook')
+	except:
+		facebook_login = None
+
+	return render(request, 'Gamers/test.html', {'facebook_login': facebook_login,})
