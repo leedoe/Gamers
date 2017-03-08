@@ -1,13 +1,30 @@
 from django.shortcuts import render
 from django.template.context import RequestContext
+from Gamers.models import Game
 
 # Create your views here.
 
 
 def test(request):
     user = request.user
-
-    facebook_login = user.social_auth.get(provider='facebook')
-    picture_url = 'http://graph.facebook.com/v2.8/' + facebook_login.uid + '/picture?type=square&hight=600&width=600&return_ssl_resources=1'
+    try:
+    	facebook_login = user.social_auth.get(provider='facebook')
+    	picture_url = 'http://graph.facebook.com/v2.8/' + facebook_login.uid + '/picture?type=square&hight=300&width=300&return_ssl_resources=1'
+    except:
+    	facebook_login = None
+    	picture_url = None
 
     return render(request, 'Gamers/test.html', {'facebook_login': facebook_login, "picture_url": picture_url})
+
+
+def main(request):
+    user = request.user
+
+    try:
+        facebook_login = user.social_auth.get(provider='facebook')
+        picture_url = 'http://graph.facebook.com/v2.8/' + facebook_login.uid + '/picture?type=small&return_ssl_resources=1'
+    except:
+        facebook_login = None
+        picture_url = None
+
+    return render(request, 'Gamers/main.html', {'game': Game.objects.all(), 'user': user, 'facebook_login': facebook_login, 'picture_url': picture_url})

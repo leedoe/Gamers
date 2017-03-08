@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Game List</title>
+</head>
+<body>
+{% include 'Gamers/menu.html' %}
+
+{% for item in game %}
+{{item.title}}<br>
+{{item.release_date}}<br>
+{% endfor %}
+</body>
+</html>

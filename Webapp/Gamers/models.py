@@ -67,7 +67,7 @@ class Pictures(models.Model):
 
 
 class Game(models.Model):
-    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
     release_date = models.DateTimeField()
     homepage = models.URLField()
     steam_id = models.IntegerField(null=True)
