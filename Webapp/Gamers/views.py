@@ -2,11 +2,8 @@ from django.shortcuts import render, redirect
 from django.template.context import RequestContext
 from Gamers.models import Game
 
-# Create your views here.
 
-
-def test(request):
-    """
+def login_page(request):
     user = request.user
     try:
         facebook_login = user.social_auth.get(provider='facebook')
@@ -14,7 +11,6 @@ def test(request):
     except:
         facebook_login = None
         picture_url = None
-    """
 
     user = request.user
 
