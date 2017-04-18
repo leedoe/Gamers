@@ -1,9 +1,10 @@
+# Gamers/models.py
+
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 
-
+# Game Developer
 class Developer(models.Model):
     game = models.ForeignKey(
         'Game',
@@ -15,6 +16,7 @@ class Developer(models.Model):
         return self.developer_name
 
 
+# Game Publisher
 class Publisher(models.Model):
     game = models.ForeignKey(
         'Game',
@@ -26,6 +28,7 @@ class Publisher(models.Model):
         return self.publisher_name
 
 
+# Game Platform
 class Platform(models.Model):
     PLATFORM_LIST_CHOICES = (
         ('WINDOWS', 'Windows'),
@@ -50,6 +53,7 @@ class Platform(models.Model):
         return self.publisher_name
 
 
+# Game Genre
 class Genre(models.Model):
     game = models.ForeignKey(
         'Game',
@@ -58,7 +62,8 @@ class Genre(models.Model):
     genre_name = models.CharField(max_length=20)
 
 
-class Pictures(models.Model):
+# Game Picture
+class Picture(models.Model):
     game = models.ForeignKey(
         'Game',
         on_delete=models.CASCADE
@@ -66,6 +71,7 @@ class Pictures(models.Model):
     picture_url = models.URLField()
 
 
+# Game Informations
 class Game(models.Model):
     title = models.CharField(max_length=100)
     release_date = models.DateTimeField()
@@ -76,6 +82,11 @@ class Game(models.Model):
         return self.title
 
 
-class Gamer(User):
-    def __str__(self):
-        return self.username
+# Game Review or scored
+class Review(models.Model):
+    user = models.ForeignKey(User)
+    Game = models.ForeignKey(Game)
+    score = models.IntegerField()
+    content = models.TextField(null=True)
+    write_date = models.DateTimeField(auto_now=True)
+    update_date = models.DateTimeField(auto_now_add=True)
