@@ -58,7 +58,7 @@ class Genre(models.Model):
     genre_name = models.CharField(max_length=20)
 
 
-class Pictures(models.Model):
+class Picture(models.Model):
     game = models.ForeignKey(
         'Game',
         on_delete=models.CASCADE
