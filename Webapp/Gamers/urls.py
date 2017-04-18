@@ -18,7 +18,7 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.test),
+    url(r'^$', views.login_page),
     url(r'^logout/$', auth_views.logout, name='logout', kwargs={'next_page': '/'}),
     url(r'^main$', views.main, name='main'),
     url(r'', include('social_django.urls', namespace='social')),
