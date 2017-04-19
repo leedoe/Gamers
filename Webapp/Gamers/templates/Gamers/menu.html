@@ -1,13 +1,30 @@
-<nav class="navbar navbar-inverse">
-<ul class="nav navbar-nav">
-    <!--
-    <li><p class="navber-text navbar-right">{{user}}</p></li>
-    <li><img src="{{picture_url}}"><li>
-    <li><a href="{%url "logout"%}" class="btn btn-default navbar-btn">Logout</a></li>
-    -->
-    <li><p class="navber-text">평가</p></li>
-    <li><p class="navber-text">목록</p></li>
-</ul>
+<nav role="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Gamers</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+            <!--
+            <li><p class="navber-text navbar-right">{{user}}</p></li>
+            <li><img src="{{picture_url}}"><li>
+            <li><a href="{%url "logout"%}" class="btn btn-default navbar-btn">Logout</a></li>
+            -->
+                <li  class="active"><a href="#">게임 추가</a></li>
+                <li><a href="#">평가</a></li>
+                <li><a href="#">목록</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">회원가입</a></li>
+                <li><a href="{% url "logout" %}">로그아웃</a></li>
+            </ul>
+        </div>
+    </div>
 </nav>
 <!--
 <div>
