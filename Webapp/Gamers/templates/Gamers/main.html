@@ -8,12 +8,60 @@
 	<title>Game List</title>
 
     <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
-    <link href="{% static "bootstrap/css/bootstrap-theme.css" %}">
-
+    <link href="{% static "bootstrap/css/bootstrap-theme.css" %}" rel="stylesheet">
+    <link href="{% static "css/basic.css" %}" rel="stylesheet">
 </head>
 <body>
 {% include 'Gamers/menu.html' %}
 
+<div>
+    {% for item in game %}
+    {{item.title}}<br>
+    {{item.release_date|date:'Y년 n월 j일'}}<br>
+    {% endfor %}
+</div>
+<div>
+    {% for item in game %}
+    {{item.title}}<br>
+    {{item.release_date|date:'Y년 n월 j일'}}<br>
+    {% endfor %}
+</div>
+<div>
+    {% for item in game %}
+    {{item.title}}<br>
+    {{item.release_date|date:'Y년 n월 j일'}}<br>
+    {% endfor %}
+</div>
+<div>
+    {% for item in game %}
+    {{item.title}}<br>
+    {{item.release_date|date:'Y년 n월 j일'}}<br>
+    {% endfor %}
+</div>
+<div>
+    {% for item in game %}
+    {{item.title}}<br>
+    {{item.release_date|date:'Y년 n월 j일'}}<br>
+    {% endfor %}
+</div>
+<div>
+    {% for item in game %}
+    {{item.title}}<br>
+    {{item.release_date|date:'Y년 n월 j일'}}<br>
+    {% endfor %}
+</div>
+<div>
+    {% for item in game %}
+    {{item.title}}<br>
+    {{item.release_date|date:'Y년 n월 j일'}}<br>
+    {% endfor %}
+</div>
+<div>
+    {% for item in game %}
+    {{item.title}}<br>
+    {{item.release_date|date:'Y년 n월 j일'}}<br>
+    {% endfor %}
+</div>
 <div>
     {% for item in game %}
     {{item.title}}<br>

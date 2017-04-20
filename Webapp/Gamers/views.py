@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.template.context import RequestContext
-from Gamers.models import Game
+from .models import Game
+from .forms import GameForm
 
 
 def login_page(request):
@@ -31,3 +32,8 @@ def main(request):
         picture_url = None
 
     return render(request, 'Gamers/main.html', {'game': Game.objects.all(), 'user': user, 'facebook_login': facebook_login, 'picture_url': picture_url})
+
+
+def register_game(request):
+    form = GameForm()
+    return render(request, 'Gamers/content/reg_game.html', {'form': form})
