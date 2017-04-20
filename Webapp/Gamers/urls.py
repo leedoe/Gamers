@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^$', views.login_page),
     url(r'^logout/$', auth_views.logout, name='logout', kwargs={'next_page': '/'}),
     url(r'^main$', views.main, name='main'),
+    url(r'^register$', views.register_game, name='register_game'),
     url(r'', include('social_django.urls', namespace='social')),
 ]
