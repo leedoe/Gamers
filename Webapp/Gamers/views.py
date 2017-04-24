@@ -36,4 +36,8 @@ def main(request):
 
 def register_game(request):
     form = GameForm()
-    return render(request, 'Gamers/content/reg_game.html', {'form': form})
+
+    data = None
+    data = request.POST
+
+    return render(request, 'Gamers/content/reg_game.html', {'form': form, 'data': data})
