@@ -24,24 +24,40 @@
 	</form>
     {{ data }} 
 </div>
+<!--
 <div class="taginput-container">
     <input type="text" data-role="tagsinput">
+</div>
+-->
+<div class="taginput-container">
+    <input type="text" data-provide="typeahead">
 </div>
 
 <script src="{% static "jQuery/jquery-3.2.1.min.js" %}"></script>
 <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
-<script src="{% static "typeahead/typeahead.bundle.min.js" %}"></script>
+<!--<script src="{% static "typeahead/typeahead.bundle.min.js" %}"></script>-->
+<script src="{% static "typeahead/bloodhound.js" %}"></script>
+<script src="{% static "typeahead/bootstrap3-typeahead.min.js" %}"></script>
 <script src="{% static "tagsinput/bootstrap-tagsinput.min.js" %}"></script>
 <script>
+/*
 var cities = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+    datumTokenizer: Bloodhound.tokenizers.whitespace,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: '{% static "tagsinput/cities.json" %}'
+    //prefetch: '{% static "tagsinput/cities.json" %}'
 });
 cities.initialize();
+*/
+var cities = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.whitespace,
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    local: [ "Amsterdam","London", "Paris", "Washington", "New York", "Los Angeles", "Sydney", "Melbourne", "Canberra", "Beijing", "New Delhi", "Kathmandu", "Cairo", "Cape Town", "Kinshasa"]
+})
+cities.initialize();
 
-var elt = $('input');
+var elt = $('.taginput-container input');
 elt.tagsinput({
+    /*
     itemValue: 'value',
     itemText: 'text',
     typeaheadjs: {
@@ -49,8 +65,25 @@ elt.tagsinput({
         displayKey: 'text',
         source: cities.ttAdapter()
     },
-    tagcClass: 'big'
+    */
+    typeahead: {
+        source: [ "Amsterdam","London", "Paris", "Washington", "New York", "Los Angeles", "Sydney", "Melbourne", "Canberra", "Beijing", "New Delhi", "Kathmandu", "Cairo", "Cape Town", "Kinshasa"]
+    }
 });
+
+if (this.autoSelect || val) {
+    var newVal = this.updater(val);
+    // Updater can be set to any random functions via "options" parameter in constructor above.
+    // Add null check for cases when updater returns void or undefined.
+    // if (!newVal) {
+    newVal = '';
+    // }
+    this.$element
+    .val(this.displayText(newVal) || newVal)
+    .text(this.displayText(newVal) || newVal)
+    .change();
+    this.afterSelect(newVal);
+}
 </script>
 
 </body>
