@@ -1,0 +1,14 @@
+<div id='{{ name }}' class='taginput-container'>
+    <input type="text" data-provide="typeahead">
+    {{ select_options }}<br>
+</div>
+<script>
+
+var {{ name }} = $('#{{ name }} input');
+{{ name }}.tagsinput({
+    typeahead: {
+        source: {{ select_options|safe }}
+    }
+});
+
+</script>
