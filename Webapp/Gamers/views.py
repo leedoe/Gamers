@@ -37,7 +37,15 @@ def main(request):
 def register_game(request):
     form = GameForm()
 
-    data = None
-    data = request.POST
-
-    return render(request, 'Gamers/content/reg_game.html', {'form': form, 'data': data})
+    if request.method == 'POST':
+        data = request.POST
+        
+        title = data.get('title')
+        release_date = data.get('release_date')
+        homepage = data.get('homepage')
+        developers = data.get('developers').split(',')
+        publishers = data.get('publishers').split(',')
+        platforms = data.get('platforms').split(',')
+        genres = data.get('genres').split(',')
+    else:
+        return render(request, 'Gamers/content/reg_game.html', {'form': form})
