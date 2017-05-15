@@ -1,5 +1,6 @@
 # Gamers/models.py
 
+from django import forms
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -36,11 +37,17 @@ class Genre(models.Model):
         return self.name
 
 
+def no_validation(value):
+    return True
+
+
 # Game Informations
 class Game(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(
+        max_length=100,
+        unique=True,)
     release_date = models.DateField()
-    homepage = models.URLField()
+    homepage = models.URLField(null=True)
     developers = models.ManyToManyField(Developer)
     publishers = models.ManyToManyField(Publisher)
     platforms = models.ManyToManyField(Platform)
@@ -54,7 +61,7 @@ class Game(models.Model):
 # Game Picture
 class Picture(models.Model):
     picture_url = models.URLField()
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.picture_url
@@ -68,3 +75,4 @@ class Review(models.Model):
     content = models.TextField(null=True)
     write_date = models.DateTimeField(auto_now=True)
     update_date = models.DateTimeField(auto_now_add=True)
+
