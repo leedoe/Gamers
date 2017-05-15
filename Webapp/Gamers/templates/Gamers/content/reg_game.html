@@ -11,12 +11,12 @@
     <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
     <link href="{% static "bootstrap/css/bootstrap-theme.css" %}" rel="stylesheet">
     <link href="{% static "tagsinput/bootstrap-tagsinput.css" %}" rel="stylesheet">
+    <link href="{% static "datepicker/css/bootstrap-datepicker3.css" %}" rel="stylesheet">
     <link href="{% static "css/basic.css" %}" rel="stylesheet">
 </head>
 <body>
 <script src="{% static "jQuery/jquery-3.2.1.min.js" %}"></script>
 <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
-<!--<script src="{% static "typeahead/typeahead.bundle.min.js" %}"></script>-->
 <script src="{% static "typeahead/bloodhound.js" %}"></script>
 <script src="{% static "typeahead/bootstrap3-typeahead.min.js" %}"></script>
 <script src="{% static "tagsinput/bootstrap-tagsinput.min.js" %}"></script>
@@ -36,13 +36,15 @@
 
 <script>
 $('#form').submit(function(eventObj){
-	$(this).append('<input type="hidden" name="developers" value="' + developers.tagsinput('items') +'"/>');
+	//$(this).append('<input type="hidden" name="developers" value="' + developers.val() +'"/>');
 
-	$(this).append('<input type="hidden" name="publishers" value="' + publishers.tagsinput('items') +'"/>');
+	//$(this).append('<input type="hidden" name="publishers" value="' + publishers.val() +'"/>');
 
-	$(this).append('<input type="hidden" name="platforms" value="' + platforms.tagsinput('items') +'"/>');
+	//$(this).append('<input type="hidden" name="platforms" value="' + platforms.val() +'"/>');
 
-	$(this).append('<input type="hidden" name="genres" value="' + genres.tagsinput('items') +'"/>');
+	//$(this).append('<input type="hidden" name="genres" value="' + genres.val() +'"/>');
+
+    //$(this).append('<input type="hidden" name="release_date" value="' + $('#sandbox-container input').val() +'"/>');
 
 
 	return true;
