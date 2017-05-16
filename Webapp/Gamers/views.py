@@ -38,44 +38,17 @@ def main(request):
 def register_game(request):
     if request.method == 'POST':
         form = GameForm(request.POST)
-        print(request.POST)
 
         if form.is_valid():
-            """
-            data = request.POST
+            temp = form.save()
 
-            title = form.cleaned_data['title']
-            release_date = form.cleaned_data['release_date']
-            homepage = form.cleaned_data['homepage']
-            developers = data.get('developers').split(',')
-            publishers = data.get('publishers').split(',')
-            platforms = data.get('platforms').split(',')
-            genres = data.get('genres').split(',')
-
-            obj = Game(
-                title=title,
-                release_date=release_date,
-                homepage=homepage,)
-            obj.save()
-
-            for item in developers:
-                temp, created = Developer.objects.get_or_create(name=item)
-                obj.developers.add(temp)
-
-            for item in publishers:
-                temp, created = Publisher.objects.get_or_create(name=item)
-                obj.publishers.add(temp)
-
-            for item in platforms:
-                temp, created = Platform.objects.get_or_create(name=item)
-                obj.platforms.add(temp)
-
-            for item in genres:
-                temp, created = Genre.objects.get_or_create(name=item)
-                obj.genres.add(temp)
-            """
-            form.save()
+            return redirect('/game/'+str(temp.pk))
     else:
         form = GameForm()
 
     return render(request, 'Gamers/content/reg_game.html', {'form': form})
+
+def game_viewer(request, game_id):
+    game = Game.objects.get(pk=game_id)
+
+    return render(request, 'Gamers/content/game.html', {'game': game})
