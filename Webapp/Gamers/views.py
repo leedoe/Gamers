@@ -42,13 +42,20 @@ def register_game(request):
         if form.is_valid():
             temp = form.save()
 
-            return redirect('/game/'+str(temp.pk))
+            return redirect('/game/' + str(temp.pk))
     else:
         form = GameForm()
 
     return render(request, 'Gamers/content/reg_game.html', {'form': form})
 
+
 def game_viewer(request, game_id):
     game = Game.objects.get(pk=game_id)
 
     return render(request, 'Gamers/content/game.html', {'game': game})
+
+
+def game_list(request):
+    game_list = Game.objects.all()
+
+    return render(request, 'Gamers/content/gamelist.html', {'game_list': game_list})
