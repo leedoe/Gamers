@@ -25,11 +25,37 @@
 {% include 'Gamers/menu.html' %}
 
 <div>
-	<form method="POST" action="" id="form">
-		{% csrf_token %}
-		{{ form.as_p }}
-        <button type="submit">Save</button>
-	</form>
+	<div class="game">
+		<div class="title">
+		{{ game.title }}
+		</div>
+		<div class="release_date">
+		{{ game.release_date }}
+		</div>
+		<div class="homepage">
+		<a href="{{ game.homepage }}" target="_blank">{{ game.homepage }}</a>
+		</div>
+		<div class="developer">
+		{% for item in game.developers.all %}
+		{{ item }}
+		{% endfor %}
+		</div>
+		<div class="publisher">
+		{% for item in game.publishers.all %}
+		{{ item }}
+		{% endfor %}
+		</div>
+		<div class="platform">
+		{% for item in game.platforms.all %}
+		{{ item }}
+		{% endfor %}
+		</div>
+		<div class="genre">
+		{% for item in game.genres.all %}
+		{{ item }}
+		{% endfor %}
+		</div>
+	</div>
 </div>
 </body>
 </html>

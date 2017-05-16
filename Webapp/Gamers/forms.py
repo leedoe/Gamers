@@ -10,10 +10,6 @@ class MyMultipleChoiceField(forms.ModelMultipleChoiceField):
     def _check_values(self, value):
         return value[0].split(',')
 
-"""
-    def to_python(self, value):
-        return [item for item in value]
-"""
 
 class GameForm(ModelForm):
     developers = MyMultipleChoiceField(queryset=Developer.objects.all())
@@ -60,3 +56,10 @@ class GameForm(ModelForm):
         for item in genres:
             temp, created = Genre.objects.get_or_create(name=item)
             obj.genres.add(temp)
+
+        return obj
+
+    def __init__(self, *args, **kwargs):
+        super(GameForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs['placeholder'] = "Enter the Game Title"
+        self.fields['homepage'].widget.attrs['placeholder'] = "http://test.com"
