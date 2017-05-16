@@ -1,12 +1,12 @@
-<!--게임 정보-->
+<!--게임 목록-->
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<!--<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">-->
-	<title>Game List</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">-->
+    <title>Game List</title>
 
     <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
     <link href="{% static "bootstrap/css/bootstrap-theme.css" %}" rel="stylesheet">
@@ -25,37 +25,11 @@
 {% include 'Gamers/menu.html' %}
 
 <div>
-	<div class="game">
-		<div class="title">
-		{{ game.title }}
-		</div>
-		<div class="release_date">
-		{{ game.release_date }}
-		</div>
-		<div class="homepage">
-		<a href="{{ game.homepage }}" target="_blank">{{ game.homepage }}</a>
-		</div>
-		<div class="developer">
-		{% for item in game.developers.all %}
-		{{ item }}
-		{% endfor %}
-		</div>
-		<div class="publisher">
-		{% for item in game.publishers.all %}
-		{{ item }}
-		{% endfor %}
-		</div>
-		<div class="platform">
-		{% for item in game.platforms.all %}
-		{{ item }}
-		{% endfor %}
-		</div>
-		<div class="genre">
-		{% for item in game.genres.all %}
-		{{ item }}
-		{% endfor %}
-		</div>
-	</div>
+{% for game in game_list %}
+    <div class="game_content">
+        <div class="title">{{ game.title }}</div>
+    </div>
+{% endfor %}
 </div>
 </body>
 </html>
