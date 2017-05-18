@@ -10,24 +10,20 @@
 
     <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
     <link href="{% static "bootstrap/css/bootstrap-theme.css" %}" rel="stylesheet">
-    <link href="{% static "tagsinput/bootstrap-tagsinput.css" %}" rel="stylesheet">
-    <link href="{% static "datepicker/css/bootstrap-datepicker3.css" %}" rel="stylesheet">
     <link href="{% static "css/basic.css" %}" rel="stylesheet">
 </head>
 <body>
 <script src="{% static "jQuery/jquery-3.2.1.min.js" %}"></script>
 <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
-<script src="{% static "typeahead/bloodhound.js" %}"></script>
-<script src="{% static "typeahead/bootstrap3-typeahead.min.js" %}"></script>
-<script src="{% static "tagsinput/bootstrap-tagsinput.min.js" %}"></script>
 
 
 {% include 'Gamers/menu.html' %}
 
 <div>
-{% for game in game_list %}
+{% for item in gameandscore %}
     <div class="game_content">
-        <div class="title">{{ game.title }}</div>
+        <div class="title"><a href="/game/{{ item.game.id }}/">{{ item.game.title }}</a></div>
+        <div class="rating">{{ item.rating }}</div>
     </div>
 {% endfor %}
 </div>

@@ -70,9 +70,9 @@ class Picture(models.Model):
 # Game Review or scored
 class Review(models.Model):
     user = models.ForeignKey(User)
-    Game = models.ForeignKey(Game)
+    game = models.ForeignKey(Game)
     score = models.IntegerField()
     content = models.TextField(null=True)
-    write_date = models.DateTimeField(auto_now=True)
-    update_date = models.DateTimeField(auto_now_add=True)
+    write_date = models.DateTimeField(auto_now_add=True)
+    update_date = models.DateTimeField(auto_now=True)
 

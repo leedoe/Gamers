@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm, CharField
-from Gamers.widgets.widgets import TagsInputWidget, DatePickerWidget
-from .models import Game, Developer, Publisher, Platform, Genre
+from Gamers.widgets.widgets import TagsInputWidget, DatePickerWidget, StarRatingWidget
+from .models import Game, Developer, Publisher, Platform, Genre, Review
 
 
 class MyMultipleChoiceField(forms.ModelMultipleChoiceField):
@@ -63,3 +63,21 @@ class GameForm(ModelForm):
         super(GameForm, self).__init__(*args, **kwargs)
         self.fields['title'].widget.attrs['placeholder'] = "Enter the Game Title"
         self.fields['homepage'].widget.attrs['placeholder'] = "http://test.com"
+
+
+class ReviewForm(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['score', 'content']
+        widgets = {
+            'score': StarRatingWidget
+        }
+"""
+    def __init__(self, *args, **kwargs):
+        score = kwargs.pop('score')
+        content = kwargs.pop('content')
+        super(ReviewForm, self).__init__(*args, **kwargs)
+
+        self.fields['score'] = score
+        self.fields['content'] = content
+        """

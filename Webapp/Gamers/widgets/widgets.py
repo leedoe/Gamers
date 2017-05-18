@@ -23,3 +23,14 @@ class DatePickerWidget(forms.DateInput):
         html = render_to_string('widgets/datepicker.html', context)
 
         return html
+
+
+class StarRatingWidget(forms.NumberInput):
+    def render(self, name, value, attrs):
+        context = {
+            'name': name,
+            'value': value,
+        }
+        html = render_to_string('widgets/starrating.html', context)
+
+        return html

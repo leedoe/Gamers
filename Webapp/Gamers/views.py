@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.template.context import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Game, Developer, Publisher, Platform, Genre
-from .forms import GameForm
+from django.db.models import Avg, Q
+from django.core.exceptions import ObjectDoesNotExist
+from .models import Game, Developer, Publisher, Platform, Genre, Review
+from .forms import GameForm, ReviewForm
 
 
 def login_page(request):
@@ -50,12 +52,60 @@ def register_game(request):
 
 
 def game_viewer(request, game_id):
+    user = request.user
     game = Game.objects.get(pk=game_id)
+    rating = Review.objects.filter(game = game_id).aggregate(Avg('score'))['score__avg']
+    try:
+        review_list = Review.objects.filter(Q(game=game_id), ~Q(user=user))
+        my_review = Review.objects.get(game=game_id, user=user)
+    except ObjectDoesNotExist:
+        review_list = None
+        my_review = None
+    
+    if rating == None:
+        rating = 0
 
-    return render(request, 'Gamers/content/game.html', {'game': game})
+    context = {
+        'game': game,
+        'rating': rating,
+        'review_list': review_list,
+    }
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+
+        if form.is_valid():
+            review = Review(score = form.cleaned_data['score'], content = form.cleaned_data['content'])
+            review.user = request.user
+            review.Game = game
+            review.save()
+    else:
+        if my_review is not None:
+            form = ReviewForm({'score':my_review.score, 'content':my_review.content})
+            print(form)
+            print(form['score'].value())
+        else:
+            form = ReviewForm()
+
+    context['review_form'] = form
+    return render(request, 'Gamers/content/game.html', {'game': game, 'rating': rating, 'review_form': form})
 
 
 def game_list(request):
     game_list = Game.objects.all()
 
-    return render(request, 'Gamers/content/gamelist.html', {'game_list': game_list})
+    gameandscore = []
+
+    for item in game_list:
+        rating = Review.objects.filter(game=item).aggregate(Avg('score'))['score__avg']
+        if rating == None:
+            rating = 0
+
+        temp = {
+            'game': item,
+            'rating': rating,
+        }
+        
+        gameandscore.append(temp)
+
+    return render(request, 'Gamers/content/gamelist.html', {'gameandscore': gameandscore})
