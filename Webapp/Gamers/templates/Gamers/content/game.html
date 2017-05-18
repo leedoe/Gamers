@@ -10,16 +10,13 @@
 
     <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
     <link href="{% static "bootstrap/css/bootstrap-theme.css" %}" rel="stylesheet">
-    <link href="{% static "tagsinput/bootstrap-tagsinput.css" %}" rel="stylesheet">
-    <link href="{% static "datepicker/css/bootstrap-datepicker3.css" %}" rel="stylesheet">
+	<link href="{% static "starrating/css/star-rating.css" %}" rel="stylesheet">
     <link href="{% static "css/basic.css" %}" rel="stylesheet">
 </head>
 <body>
 <script src="{% static "jQuery/jquery-3.2.1.min.js" %}"></script>
 <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
-<script src="{% static "typeahead/bloodhound.js" %}"></script>
-<script src="{% static "typeahead/bootstrap3-typeahead.min.js" %}"></script>
-<script src="{% static "tagsinput/bootstrap-tagsinput.min.js" %}"></script>
+<script src="{% static "starrating/js/star-rating.js" %}"></script>
 
 
 {% include 'Gamers/menu.html' %}
@@ -28,6 +25,9 @@
 	<div class="game">
 		<div class="title">
 		{{ game.title }}
+		</div>
+		</div class="rating">
+		{{ rating }}
 		</div>
 		<div class="release_date">
 		{{ game.release_date }}
@@ -55,6 +55,16 @@
 		{{ item }}
 		{% endfor %}
 		</div>
+	</div>
+	리뷰 쓰기
+	<div class="my_review">
+		<form action="" method="POST">
+		{% csrf_token %}
+		{{ review_form.as_p }}
+		<button type="submit">저장</button>
+		</form>
+	</div>
+	<div class="review">
 	</div>
 </div>
 </body>
