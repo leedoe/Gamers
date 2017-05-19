@@ -40,8 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # social-auth-app-django
-    'social_django',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
     'Gamers',
 ]
 
@@ -76,21 +79,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'reviewer.wsgi.application'
 
-# social-auth-app-django
-AUTHENTICATION_BACKENDS = (
-    # 'social_core.backends.open_id.OpenIdAuth',
-    # 'social_core.backends.google.GoogleOpenId',
-    # 'social_core.backends.google.GoogleOAuth2',
-    # 'social_core.backends.google.GoogleOAuth',
-    # 'social_core.backends.twitter.TwitterOAuth',
-    # 'social_core.backends.yahoo.YahooOpenId',
-    'social_core.backends.facebook.FacebookOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-)
+LOGIN_REDIRECT_URL = '/accounts/login/'
 
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-LOGIN_REDIRECT_URL = '/main'
-
+"""
 # Facebook
 SOCIAL_AUTH_FACEBOOK_KEY = '1851558021782877'
 SOCIAL_AUTH_FACEBOOK_SECRET = '76198425f32898c2c51ecfe8d0a5c33b'
@@ -100,6 +91,7 @@ SOCAIL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 }
 
 # SOCIAL_AUTH_USER_MODEL = 'Gamers.Gamer'
+"""
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -138,6 +130,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -158,6 +158,3 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-
-# DATE_FORMAT = 'Y-n-j'
