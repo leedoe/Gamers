@@ -14,15 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
     url(r'^$', views.login_page),
-    url(r'^logout/$', auth_views.logout, name='logout', kwargs={'next_page': '/'}),
-    url(r'^main$', views.main, name='main'),
-    url(r'^register$', views.register_game, name='register_game'),
+    url(r'^accounts/', include('allauth.urls')),
+    url(r'^main/$', views.main, name='main'),
+    url(r'^register/$', views.register_game, name='register_game'),
     url(r'^game/(?P<game_id>\d+)/$', views.game_viewer, name='game_viewer'),
     url(r'^gamelist$', views.game_list, name='game_list'),
-    url(r'', include('social_django.urls', namespace='social')),
 ]
