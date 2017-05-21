@@ -18,6 +18,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.login_page),
+    url(r'^accounts/', include('accounts.urls')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^main/$', views.main, name='main'),
     url(r'^register/$', views.register_game, name='register_game'),

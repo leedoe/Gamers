@@ -1,25 +1,11 @@
-from django.contrib.auth.views import login as auth_login
 from django.shortcuts import render, redirect
 from django.template.context import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg, Q
 from django.core.exceptions import ObjectDoesNotExist
-from allauth.socialaccount.models import SocialApp
-from allauth.socialaccount.templatetags.socialaccount import get_providers
 from .models import Game, Developer, Publisher, Platform, Genre, Review
 from .forms import GameForm, ReviewForm
 
-
-def login(request):
-    providers = []
-    for provider in get_providers():
-        try:
-            provider.social_app = SocialApp.objects.get(provider.id, sites=settings.SITE_ID)
-        except SocialApp.DoesNotExist:
-            provider.social_app = None
-        providers.append(provider)
-
-    return auth_login(request, authentication_form=LoginForm, template_name='accounts/login_form.html', extra_context={'providers': provider})
 
 
 def login_page(request):
@@ -103,7 +89,8 @@ def game_viewer(request, game_id):
             form = ReviewForm()
 
     context['review_form'] = form
-    return render(request, 'Gamers/content/game.html', {'game': game, 'rating': rating, 'review_form': form})
+
+    return render(request, 'Gamers/content/game.html', context)
 
 
 def game_list(request):
