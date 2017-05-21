@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
     'Gamers',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +81,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'reviewer.wsgi.application'
 
-LOGIN_REDIRECT_URL = '/accounts/login/'
+LOGIN_URL = '/gamers/accounts/login/'
+LOGIN_REDIRECT_URL = '/gamers/accounts/profile/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 """
 # Facebook
@@ -135,9 +139,12 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+# django allauth
 SITE_ID = 1
-
+ACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

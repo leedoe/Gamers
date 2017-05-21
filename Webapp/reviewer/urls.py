@@ -18,9 +18,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'', include('Gamers.urls')),
-]
-
-urlpatterns += [
+    url(r'^gamers/', include('Gamers.urls')),
+    url(r'^accounts/', include('accounts.urls')),
     url(r'^admin/', admin.site.urls),
 ]

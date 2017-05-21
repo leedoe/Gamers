@@ -118,7 +118,7 @@ for item in data['applist']['apps']:
 # game list in steam
 req = None
 
-for i in range(1, 5):
+for i in range(1, 2):
     print(i)
     req = urllib.request.Request(
         'http://store.steampowered.com/search/?page=' + str(i),
@@ -200,7 +200,7 @@ for i in range(1, 5):
 
         print(website)
         # get screenshot
-        gameScreenshot = bs.find('a', class_='highlight_screenshot_link')
-        filename = re.sub('[\W]', '', title)
-        #urllib.request.urlretrieve(gameScreenshot['href'][43:], os.path.join('D:\\git\\Gamers\\game_list_parser\\pictures', filename + '.jpg'))
+        # gameScreenshot = bs.find('a', class_='highlight_screenshot_link')
+        # filename = re.sub('[\W]', '', title)
+        # urllib.request.urlretrieve(gameScreenshot['href'][43:], os.path.join('D:\\git\\Gamers\\game_list_parser\\pictures', filename + '.jpg'))
 
