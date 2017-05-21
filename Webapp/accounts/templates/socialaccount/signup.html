@@ -1,3 +1,4 @@
+{% load i18n %}
 <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
   {% csrf_token %}
   {{ form.as_p }}

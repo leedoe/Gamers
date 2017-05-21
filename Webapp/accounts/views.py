@@ -1,19 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth.views import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
-from allauth.account.views import LoginView
-from allauth.socialaccount.views import SignupView
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
-from allauth.socialaccount.forms import SignupForm
-from allauth.account import app_settings as account_settings
 
-
-class Signup(SignupView):
-    template_name = 'socialaccount/signup.html'
-
-signup = Signup.as_view()
 
 def login(request):
     providers = []
