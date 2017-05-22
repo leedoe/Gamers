@@ -76,3 +76,5 @@ class Review(models.Model):
     write_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        unique_together = ('user', 'game')

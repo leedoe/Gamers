@@ -72,12 +72,3 @@ class ReviewForm(ModelForm):
         widgets = {
             'score': StarRatingWidget
         }
-"""
-    def __init__(self, *args, **kwargs):
-        score = kwargs.pop('score')
-        content = kwargs.pop('content')
-        super(ReviewForm, self).__init__(*args, **kwargs)
-
-        self.fields['score'] = score
-        self.fields['content'] = content
-        """

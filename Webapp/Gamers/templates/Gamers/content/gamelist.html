@@ -22,7 +22,7 @@
 <div>
 {% for item in gameandscore %}
     <div class="game_content">
-        <div class="title"><a href="/game/{{ item.game.id }}/">{{ item.game.title }}</a></div>
+        <div class="title"><a href="/gamers/game/{{ item.game.id }}/">{{ item.game.title }}</a></div>
         <div class="rating">{{ item.rating }}</div>
     </div>
 {% endfor %}

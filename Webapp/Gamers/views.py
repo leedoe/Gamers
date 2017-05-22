@@ -76,15 +76,19 @@ def game_viewer(request, game_id):
         form = ReviewForm(request.POST)
 
         if form.is_valid():
-            review = Review(score = form.cleaned_data['score'], content = form.cleaned_data['content'])
-            review.user = request.user
-            review.Game = game
-            review.save()
+            if my_review is not None:
+                review = Review(
+                    user = user,
+                    game = game,
+                    score = form.cleaned_data['score'], 
+                    content = form.cleaned_data['content'])
+                review.save()
+            else:
+                my_review.score = form.cleaned_data['score']
+                my_review.content = form.cleaned_data['content']
     else:
         if my_review is not None:
-            form = ReviewForm({'score':my_review.score, 'content':my_review.content})
-            print(form)
-            print(form['score'].value())
+            form = ReviewForm(initial = {'score':my_review.score, 'content':my_review.content})
         else:
             form = ReviewForm()
 
