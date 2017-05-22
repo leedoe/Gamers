@@ -17,8 +17,12 @@
                 <li><a href="{% url "game_list" %}">목록</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated  %}
                 <li><a href="#">정보 변경</a></li>
                 <li><a href="/accounts/logout/">로그아웃</a></li>
+                {% else %}
+                <li><a href="/accounts/login/">로그인</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>

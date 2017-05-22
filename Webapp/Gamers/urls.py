@@ -17,10 +17,9 @@ from django.conf.urls import url, include
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.login_page),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^main/$', views.main, name='main'),
+    url(r'^$', views.main, name='main'),
     url(r'^register/$', views.register_game, name='register_game'),
     url(r'^game/(?P<game_id>\d+)/$', views.game_viewer, name='game_viewer'),
     url(r'^gamelist$', views.game_list, name='game_list'),

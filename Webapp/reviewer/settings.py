@@ -83,19 +83,7 @@ WSGI_APPLICATION = 'reviewer.wsgi.application'
 
 LOGIN_URL = '/gamers/accounts/login/'
 LOGIN_REDIRECT_URL = '/gamers/accounts/profile/'
-LOGOUT_REDIRECT_URL = '/accounts/login/'
 
-"""
-# Facebook
-SOCIAL_AUTH_FACEBOOK_KEY = '1851558021782877'
-SOCIAL_AUTH_FACEBOOK_SECRET = '76198425f32898c2c51ecfe8d0a5c33b'
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-SOCAIL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-    'fields': 'id, name, public_profile'
-}
-
-# SOCIAL_AUTH_USER_MODEL = 'Gamers.Gamer'
-"""
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -103,7 +91,6 @@ SOCAIL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'NAME': 'Gamer',
         'USER': 'leedoe',
         'PASSWORD': 'ehwns0910',
@@ -150,15 +137,10 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 LANGUAGE_CODE = 'ko-kr'
-
 TIME_ZONE = 'Asia/Seoul'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

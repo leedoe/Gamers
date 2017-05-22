@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
+from .forms import UsernameEditForm
 
 
 def login(request):
@@ -25,4 +26,13 @@ def login(request):
 
 @login_required
 def profile(request):
-    return render(request, 'accounts/profile.html')
+    user = request.user
+    if request.method == 'POST':
+        form = UsernameEditForm(request.POST, instance=user)
+
+        if form.is_valid():
+            form.save()
+    else:
+        form = UsernameEditForm(initial={'username': user.username,'email': user.email})
+
+    return render(request, 'accounts/profile.html', {'form': form})
