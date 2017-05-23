@@ -65,7 +65,25 @@
 		</form>
 	</div>
 	<div class="review">
+		<h1>리뷰</h1>
+		{% for item in review_list %}
+		<div>
+			<h2>{{ item.user }}</h2>
+			<input type="number" class="rating" 
+			data-min="0" data-max="10" data-step="1"
+			data-show-clear='false' data-show-caption='false'
+			value="{{ item.score }}"
+			>
+			<span>
+				{{ item.content }}
+			</span>
+		</div>
+		{% endfor%}
 	</div>
 </div>
+<script>
+	$('.rating').rating({displayOnly: true});
+</script>
 </body>
 </html>
+
