@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.template.context import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg, Q
-from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 from .models import Game, Developer, Publisher, Platform, Genre, Review
 from .forms import GameForm, ReviewForm
 
@@ -51,7 +51,7 @@ def register_game(request):
 
     return render(request, 'Gamers/content/reg_game.html', {'form': form})
 
-
+@login_required
 def game_viewer(request, game_id):
     user = request.user
     game = Game.objects.get(pk=game_id)
