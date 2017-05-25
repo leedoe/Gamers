@@ -1,9 +1,16 @@
 # -*- coding: utf-8 -*-
 import urllib.request
+import requests
 import codecs
 import re
 import os
 from bs4 import BeautifulSoup
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE',"reviewer.settings")
+
+import django
+django.setup()
+from Gamers.model import Game, Developer, Genre, Publisher, Platform
 
 file = codecs.open("GameList.txt", 'a', 'utf-8')
 
@@ -138,21 +145,30 @@ for i in range(1, 2):
     bs = bs.find_all('a', class_='search_result_row ds_collapse_flag')
 
     for item in bs:
-        title = item.find('span', class_='title').text
+        content = {}
 
-        platform = {'Win': False, 'Mac': False, 'Linux': False}
+        title = item.find('span', class_='title').text
+        content['title'] = title
+
+        platform_list = []
+        platform = ""
 
         if item.find('span', class_='platform_img win'):
-            platform['Win'] = True
+            platform_list.append('Windows')
         if item.find('span', class_='platform_img mac'):
-            platform['Mac'] = True
+            platform_list.append('Mac')
         if item.find('span', class_='platform_img linux'):
-            platform['Linux'] = True
+            platform_list.append('Linux')
+
+        platform = ','.join(platform_list)
+
+        content['platforms'] = platform
+
 
         # file.write(title.text + '\n')
-        print(title, end="-----")
-        print(str(platform['Win']) + str(platform['Mac']) + str(platform['Linux']), end='-----')
-        print(item['data-ds-appid'])
+        # print(title, end="-----")
+        # print(str(platform['Win']) + str(platform['Mac']) + str(platform['Linux']), end='-----')
+        # print(item['data-ds-appid'])
 
         req2 = urllib.request.Request(
             'http://store.steampowered.com/app/' + str(item['data-ds-appid']),
@@ -183,22 +199,110 @@ for i in range(1, 2):
 
         website = WebsiteBlock.find('a')['href']
 
-        print('GENRE: ', end='')
+        release_date_raw = bs.find('span', class_='date').text
+        mdy = release_date_raw.split()
+        
+        day = mdy[0]
+        month = mdy[1]
+        year = mdy[2]
+
+        month = month.replace('Jan,', '01')
+        month = month.replace('Feb,', '02')
+        month = month.replace('Mar,', '03')
+        month = month.replace('Apr,', '04')
+        month = month.replace('May,', '05')
+        month = month.replace('Jun,', '06')
+        month = month.replace('Jul,', '07')
+        month = month.replace('Aug,', '08')
+        month = month.replace('Sep,', '09')
+        month = month.replace('Oct,', '10')
+        month = month.replace('Nov,', '11')
+        month = month.replace('Dec,', '12')
+
+        release_date = year + '-' + month + '-' + day
+        #print(release_date)
+        
+
+
+        # print('GENRE: ', end='')
+        genres_list = []
+        genres = ''
         for genreName in genre:
-            print(genreName.text, end=", ")
-        print()
+            # print(genreName.text, end=", ")
+            temp = genreName.text
+            temp.replace(',', ' ')
+            genres_list.append(temp)
 
-        print('DEVELOPER: ', end='')
+        genres = ','.join(genres_list)
+
+        #print('DEVELOPER: ', end='')
+        developers_list = []
+        developers = ''
         for developerName in developer:
-            print(developerName.text, end=', ')
-        print()
+            # print(developerName.text, end=', ')
+            temp = developerName.text
+            temp.replace(',', ' ')
+            developers_list.append(temp)
 
-        print('PUBLISHER: ', end='')  
+        developers = ','.join(developers_list)
+
+
+        # print('PUBLISHER: ', end='')  
+        publishers_list = []
+        publishers = ''
         for publisherName in publisher:
-            print(publisherName.text, end=', ')
-        print()
+            # print(publisherName.text, end=', ')
+            temp = publisherName.text
+            temp.replace(',', ' ')
+            publishers_list.append(temp)
 
-        print(website)
+        publishers = ','.join(publishers_list)
+
+        # print(website)
+
+        obj = Game(
+            title=title,
+            release_date = release_date
+        )
+
+        content['genres'] = genres
+        content['developers'] = developers
+        content['publishers'] = publishers
+        content['release_date'] = release_date
+        if website.find('http://store.steampowered') == -1:
+            content['homepage'] = website
+            obj(homepage = website)
+
+        try:
+            obj.save()
+        except:
+            continue
+
+        for item in developers_list:
+            temp, created = Developer.objects.get_or_create(name=item)
+            obj.developers.add(temp)
+
+        for item in publishers_list:
+            temp, created = Publisher.objects.get_or_create(name=item)
+            obj.publishers.add(temp)
+
+        for item in platforms_list:
+            temp, created = Platform.objects.get_or_create(name=item)
+            obj.platforms.add(temp)
+
+        for item in genres_list:
+            temp, created = Genre.objects.get_or_create(name=item)
+            obj.genres.add(temp)
+        
+
+        # print(content)
+        # client = requests.session()
+        # client.get('http://127.0.0.1:8000/gamers/register/')
+        # csrftoken = client.cookies['csrftoken']
+        # content['csrfmiddlewaretoken'] = csrftoken
+
+        # client.post('http://127.0.0.1:8000/gamers/register/', data=content, headers=dict(Referer='http://127.0.0.1:8000/gamers/register/'))
+        #res = requests.post('http://127.0.0.1:8000/gamers/register/', data = content)
         # get screenshot
         # gameScreenshot = bs.find('a', class_='highlight_screenshot_link')
         # filename = re.sub('[\W]', '', title)
