@@ -31,7 +31,7 @@ class Platform(models.Model):
 
 # Game Genre
 class Genre(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
@@ -44,7 +44,7 @@ def no_validation(value):
 # Game Informations
 class Game(models.Model):
     title = models.CharField(
-        max_length=100,
+        max_length=255,
         unique=True,)
     release_date = models.DateField()
     homepage = models.URLField(null=True)

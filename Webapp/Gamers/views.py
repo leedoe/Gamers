@@ -40,12 +40,13 @@ def main(request):
 
 def register_game(request):
     if request.method == 'POST':
+        #print(request.POST)
         form = GameForm(request.POST)
 
         if form.is_valid():
             temp = form.save()
 
-            return redirect('/game/' + str(temp.pk))
+            return redirect('/gamers/' + str(temp.pk))
     else:
         form = GameForm()
 
