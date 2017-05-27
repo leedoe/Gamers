@@ -58,13 +58,13 @@ class Game(models.Model):
         return self.title
 
 
-# Game Picture
-class Picture(models.Model):
-    picture_url = models.URLField()
+# Game Screenshot
+class Screenshot(models.Model):
+    screenshot_url = models.URLField()
     game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.picture_url
+        return self.game
 
 
 # Game Review or scored
