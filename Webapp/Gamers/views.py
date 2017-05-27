@@ -3,7 +3,7 @@ from django.template.context import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg, Q
 from django.contrib.auth.decorators import login_required
-from .models import Game, Developer, Publisher, Platform, Genre, Review
+from .models import Game, Developer, Publisher, Platform, Genre, Review, Screenshot
 from .forms import GameForm, ReviewForm
 
 
@@ -57,6 +57,7 @@ def game_viewer(request, game_id):
     user = request.user
     game = Game.objects.get(pk=game_id)
     rating = Review.objects.filter(game = game_id).aggregate(Avg('score'))['score__avg']
+    screenshot = Screenshot.objects.get(game=game_id)
     try:
         review_list = Review.objects.filter(Q(game=game_id), ~Q(user=user))
         my_review = Review.objects.get(game=game_id, user=user)
@@ -71,6 +72,7 @@ def game_viewer(request, game_id):
         'game': game,
         'rating': rating,
         'review_list': review_list,
+        'screenshot_url': screenshot.screenshot_url
     }
 
     if request.method == 'POST':
