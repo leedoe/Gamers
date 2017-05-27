@@ -91,10 +91,10 @@ LOGIN_REDIRECT_URL = '/gamers/accounts/profile/'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Gamer',
+        'NAME': 'GameReview',
         'USER': 'leedoe',
         'PASSWORD': 'ehwns0910',
-        'HOST': 'gamereview.cofbl2jproi3.us-west-2.rds.amazonaws.com',
+        'HOST': 'mysql-seoul.cqgbfdecijea.ap-northeast-2.rds.amazonaws.com',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
