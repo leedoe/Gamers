@@ -1,15 +1,17 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html lang="ko">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<!--<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">-->
 	<title>Game List</title>
 
+    <!--
     <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
     <link href="{% static "bootstrap/css/bootstrap-theme.css" %}" rel="stylesheet">
-    <link href="{% static "css/basic.css" %}" rel="stylesheet">
+    -->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static "materialize/css/materialize.css"%}" type="text/css" rel="stylesheet" media="screen, projection">
 </head>
 <body>
 {% include 'Gamers/menu.html' %}
@@ -23,7 +25,8 @@
 
 
 <script src="{% static "jQuery/jquery-3.2.1.min.js" %}"></script>
-<script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
+<!--<script src="{% static "bootstrap/js/bootstrap.js" %}"></script>-->
+<script src="{% static "materialize/js/materialize.js" %}"></script>
 
 </body>
 </html>

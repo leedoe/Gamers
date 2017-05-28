@@ -18,6 +18,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^gamers/', include('Gamers.urls')),
+    url(r'^', include('Gamers.urls')),
     url(r'^admin/', admin.site.urls),
 ]
