@@ -1,13 +1,7 @@
+<!--
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <!--
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            -->
             <a class="navbar-brand" href="#">Gamers</a>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
@@ -27,3 +21,27 @@
         </div>
     </div>
 </nav>
+-->
+<div class="navbar-fixed">
+    <nav class="nav-extended">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo">LOGO</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                {% if user.is_authenticated %}
+                <li><a href="#"><i class="large material-icons">account_circle</i></a></li>
+                <li><a href="#">Logout</a></li>
+                {% else %}
+                <li><a>Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="nav-content">
+            <ul class="tabs tabs-transparent">
+                <li class="tab"><a>Scored Game</a></li>
+                <li class="tab"><a>Test</a></li>
+                <li class="tab"><a>Test2</a></li>
+                <li class="tab"><a>Test3</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
