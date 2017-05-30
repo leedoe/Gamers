@@ -16,7 +16,7 @@
 <body>
 {% include 'Gamers/menu.html' %}
 
-<div>
+<div class="container">
     {% for item in game %}
     {{item.title}}<br>
     {{item.release_date|date:'Y년 n월 j일'}}<br>
