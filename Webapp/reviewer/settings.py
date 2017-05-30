@@ -81,8 +81,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'reviewer.wsgi.application'
 
-LOGIN_URL = '/gamers/accounts/login/'
-LOGIN_REDIRECT_URL = '/gamers/accounts/profile/'
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/accounts/profile/'
 
 
 # Database

@@ -1,47 +1,20 @@
-<!--
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Gamers</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav" id="myTabs">
-                <li ><a href="{% url "register_game" %}">게임 추가</a></li>
-                <li><a href="#">평가</a></li>
-                <li><a href="{% url "game_list" %}">목록</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated  %}
-                <li><a href="#">정보 변경</a></li>
-                <li><a href="accounts/logout/">로그아웃</a></li>
-                {% else %}
-                <li><a href="accounts/login/">로그인</a></li>
-                {% endif %}
-            </ul>
-        </div>
+<nav class="nav-extended blue-grey darken-4">
+    <div class="nav-wrapper">
+        <a href="/" class="brand-logo">GAMERS</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            {% if user.is_authenticated %}
+            <li><a href="/accounts/profile/"><i class="large material-icons">account_circle</i></a></li>
+            <li><a href="/accounts/logout/">Logout</a></li>
+            {% else %}
+            <li><a>Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="nav-content">
+        <ul class="tabs tabs-transparent">
+            <li class="tab"><a href="#">test1</a></li>
+            <li class="tab"><a href="#">test2</a></li>
+            <li class="tab"><a href="#">검색</a></li>
+        </ul>
     </div>
 </nav>
--->
-<div class="navbar-fixed">
-    <nav class="nav-extended">
-        <div class="nav-wrapper">
-            <a href="#" class="brand-logo">LOGO</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                {% if user.is_authenticated %}
-                <li><a href="#"><i class="large material-icons">account_circle</i></a></li>
-                <li><a href="#">Logout</a></li>
-                {% else %}
-                <li><a>Login</a></li>
-                {% endif %}
-            </ul>
-        </div>
-        <div class="nav-content">
-            <ul class="tabs tabs-transparent">
-                <li class="tab"><a>Scored Game</a></li>
-                <li class="tab"><a>Test</a></li>
-                <li class="tab"><a>Test2</a></li>
-                <li class="tab"><a>Test3</a></li>
-            </ul>
-        </div>
-    </nav>
-</div>
