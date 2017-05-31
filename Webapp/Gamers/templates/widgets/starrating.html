@@ -1,7 +1,6 @@
 <!-- star rating -->
-{% load staticfiles %}
 <div id="star-rating">
-    <input name="{{ name }}" type="number" class="rating" 
+    <input name="{{ name }}" type="number" class="input_rating" 
     data-min="0" data-max="10" data-step="1"
     data-show-clear='false' data-show-caption='false'
     {% if value != None %} value="{{ value }}" {% endif%}

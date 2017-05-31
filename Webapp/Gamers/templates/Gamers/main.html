@@ -17,9 +17,17 @@
 {% include 'Gamers/menu.html' %}
 
 <div class="container">
-    {% for item in game %}
-    {{item.title}}<br>
-    {{item.release_date|date:'Y년 n월 j일'}}<br>
+    {% for row in game %}
+    <div class="row">
+        {% for col, screenshot in row %}
+        <div class="col s12 m6 l3 z-depth-4" style="background-color:red;">
+            <div><img src="{{ screenshot.screenshot_url }}" height="100px"></div>
+            {{col.title}}<br>
+            {{col.release_date|date:'Y년 n월 j일'}}<br>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="divider"></div>
     {% endfor %}
 </div>
 
