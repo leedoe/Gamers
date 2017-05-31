@@ -64,7 +64,7 @@ class Screenshot(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.game
+        return self.game.title
 
 
 # Game Review or scored
