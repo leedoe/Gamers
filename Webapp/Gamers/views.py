@@ -26,16 +26,25 @@ def login_page(request):
 
 
 def main(request):
-    user = request.user
 
-    try:
-        facebook_login = user.social_auth.get(provider='facebook')
-        picture_url = 'http://graph.facebook.com/v2.8/' + facebook_login.uid + '/picture?type=small&return_ssl_resources=1'
-    except:
-        facebook_login = None
-        picture_url = None
 
-    return render(request, 'Gamers/main.html', {'game': Game.objects.all(), 'user': user, 'facebook_login': facebook_login, 'picture_url': picture_url})
+    game_list = []
+    temp = []
+    i = 0
+    for item in Game.objects.all():
+        try:
+            sc = Screenshot.objects.get(game=item)
+        except:
+            sc = None
+        tu = (item, sc)
+        temp.append(tu)
+        i = i + 1
+        if i == 4:
+            game_list.append(temp)
+            temp = []
+            i = 0
+
+    return render(request, 'Gamers/main.html', {'game': game_list})
 
 
 def register_game(request):
@@ -79,21 +88,22 @@ def game_viewer(request, game_id):
         form = ReviewForm(request.POST)
 
         if form.is_valid():
-            if my_review is not None:
+            if my_review is None:
                 review = Review(
                     user = user,
                     game = game,
                     score = form.cleaned_data['score'], 
                     content = form.cleaned_data['content'])
+                print(form.cleaned_data['content'])
                 review.save()
             else:
                 my_review.score = form.cleaned_data['score']
                 my_review.content = form.cleaned_data['content']
     else:
-        if my_review is not None:
-            form = ReviewForm(initial = {'score':my_review.score, 'content':my_review.content})
-        else:
+        if my_review is None:
             form = ReviewForm()
+        else:
+            form = ReviewForm(initial = {'score':my_review.score, 'content':my_review.content})
 
     context['review_form'] = form
 
