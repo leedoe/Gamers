@@ -14,13 +14,13 @@
 {% endblock %}
 
 {% block content %}
-
-<div>
-	<form method="POST" action="" id="form">
-		{% csrf_token %}
-		{{ form.as_p }}
-        <button type="submit">Save</button>
-	</form>
+<div class="container">
+	<div>
+		<form method="POST" action="" id="form">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button type="submit">Save</button>
+		</form>
+	</div>
 </div>
-
 {% endblock %}

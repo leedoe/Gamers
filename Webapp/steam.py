@@ -121,10 +121,10 @@ def get_game_data(appid):
         content['title'] = title
         content['release_date'] = release_date
         content['homepage'] = homepage
-        content['platforms'] = platforms
-        content['genres'] = genres
-        content['developers'] = developers
-        content['publishers'] = publishers
+        content['platforms'] = platforms.replace(',', ' ')
+        content['genres'] = genres.replace(',', ' ')
+        content['developers'] = developers.replace(',', ' ')
+        content['publishers'] = publishers.replace(',', ' ')
         content['screenshot'] = screenshot
 
         content_list.append(content)
