@@ -1,3 +1,4 @@
+<!--
 <div class="left-menu z-depth-1">
     <div class="account-info">
         <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" height="5em">
@@ -10,3 +11,13 @@
         </ul>
     </div>
 </div>
+-->
+<ul id="nav-mobile" class="side-nav fixed">
+    <li class="account-info blue-grey darken-4">
+        <img class="circle avatar" src="{{ user.socialaccount_set.all.0.get_avatar_url }}">
+        <span class="white-text">{{ user.username }}</span>
+        <i class="small material-icons md-light">settings</i>
+    </li>
+    <li><a href="{% url "game_list" %}">Game List</a></li>
+    <li><a href="{% url "register_game" %}">Register Game</a></li>
+</ul>

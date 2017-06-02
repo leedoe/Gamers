@@ -6,22 +6,24 @@ div.left-menu {
     position: fixed;
 }
 
-div.account-info {
+li.account-info {
     height: 56px;
+    line-height: 56px;
     padding: 0 15px;
     background-color: green;
 }
 
 @media only screen and (min-width: 601px) {
-    div.account-info {
+    li.account-info {
         height: 64px;
+        line-height: 64px;
         padding: 0 15px;
         background-color: green;
     }   
 }
 
 div.main-body {
-    margin-left: 20em;
+    margin-left: 300px;
 }
 
 div.nav {
@@ -31,4 +33,16 @@ div.nav {
 
 nav.nav-title {
     background-color: green;
+}
+
+img.avatar {
+    height: 50px;
+}
+
+.material-icons.md-light {
+    display: inline-block;
+    text-align: right;
+    vertical-align: middle;
+    padding: 15px;
+    color: rgba(255, 255, 255, 1); 
 }
