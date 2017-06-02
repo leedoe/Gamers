@@ -44,7 +44,7 @@ def main(request):
             temp = []
             i = 0
 
-    return render(request, 'Gamers/main.html', {'game': game_list})
+    return render(request, 'Gamers/main.html', {'game': game_list, 'page_title': 'TESTPAGE'})
 
 
 def register_game(request):
