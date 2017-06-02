@@ -1,28 +1,19 @@
-<!--게임 추가-->
+{% extends 'Gamers/base/base_template.html' %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<!--<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">-->
-	<title>Game List</title>
 
-    <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
-    <link href="{% static "bootstrap/css/bootstrap-theme.css" %}" rel="stylesheet">
-    <link href="{% static "tagsinput/bootstrap-tagsinput.css" %}" rel="stylesheet">
-    <link href="{% static "datepicker/css/bootstrap-datepicker3.css" %}" rel="stylesheet">
-    <link href="{% static "css/basic.css" %}" rel="stylesheet">
-</head>
-<body>
-<script src="{% static "jQuery/jquery-3.2.1.min.js" %}"></script>
-<script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
+
+{% block css %}
+<link href="{% static "tagsinput/bootstrap-tagsinput.css" %}" rel="stylesheet">
+<link href="{% static "datepicker/css/bootstrap-datepicker3.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block js%}
 <script src="{% static "typeahead/bloodhound.js" %}"></script>
 <script src="{% static "typeahead/bootstrap3-typeahead.min.js" %}"></script>
 <script src="{% static "tagsinput/bootstrap-tagsinput.min.js" %}"></script>
+{% endblock %}
 
-
-{% include 'Gamers/menu.html' %}
+{% block content %}
 
 <div>
 	<form method="POST" action="" id="form">
@@ -31,5 +22,5 @@
         <button type="submit">Save</button>
 	</form>
 </div>
-</body>
-</html>
+
+{% endblock %}

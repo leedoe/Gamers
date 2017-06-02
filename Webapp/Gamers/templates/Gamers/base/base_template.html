@@ -1,0 +1,56 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!--<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">-->
+	<title>Gamers</title>
+
+
+    <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
+    <link href="{% static "bootstrap/css/bootstrap-theme.css" %}" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static "materialize/css/materialize.css"%}" type="text/css" rel="stylesheet" media="screen, projection">
+    <link href="{% static "css/basic.css" %}" type="text/css" rel="stylesheet">
+    {% block css%}
+    {% endblock %}
+</head>
+<body>
+<script src="{% static "jQuery/jquery-3.2.1.min.js" %}"></script>
+<script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
+<script src="{% static "materialize/js/materialize.js" %}"></script>
+{% block js %}
+{% endblock %}
+
+
+{% include 'Gamers/base/left_menu.html' %}
+
+<!--
+<div class="container">
+    {% for row in game %}
+    <div class="row">
+        {% for col, screenshot in row %}
+        <div class="col s12 m6 l3 z-depth-4" style="background-color:red;">
+            <div><img src="{{ screenshot.screenshot_url }}" height="100px"></div>
+            {{col.title}}<br>
+            {{col.release_date|date:'Y년 n월 j일'}}<br>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="divider"></div>
+    {% endfor %}
+</div>
+-->
+<div class="main-body z-depth-0">
+    <nav class="nav-title">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">{{ page_title }}</a>
+        </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+</div>
+
+
+</body>
+</html>

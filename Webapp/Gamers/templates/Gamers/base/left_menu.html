@@ -1,0 +1,12 @@
+<div class="left-menu z-depth-1">
+    <div class="account-info">
+        <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" height="5em">
+        {{ user.username }}
+    </div>
+    <div class="nav">
+        <ul class="left">
+            <li><a href="{% url "game_list" %}">Game List</a></li>
+            <li><a href="{% url "register_game" %}">Register Game</a></li>
+        </ul>
+    </div>
+</div>
