@@ -59,9 +59,9 @@ def register_game(request):
     else:
         form = GameForm()
 
-    return render(request, 'Gamers/content/reg_game.html', {'form': form})
+    return render(request, 'Gamers/content/reg_game.html', {'form': form, 'page_title': 'REGISTER'})
 
-@login_required
+
 def game_viewer(request, game_id):
     user = request.user
     game = Game.objects.get(pk=game_id)
@@ -69,9 +69,12 @@ def game_viewer(request, game_id):
     screenshot = Screenshot.objects.get(game=game_id)
     try:
         review_list = Review.objects.filter(Q(game=game_id), ~Q(user=user))
-        my_review = Review.objects.get(game=game_id, user=user)
     except ObjectDoesNotExist:
         review_list = None
+
+    try:
+        my_review = Review.objects.get(game=game_id, user=user)
+    except ObjectDoesNotExist:
         my_review = None
     
     if rating == None:
@@ -81,7 +84,8 @@ def game_viewer(request, game_id):
         'game': game,
         'rating': rating,
         'review_list': review_list,
-        'screenshot_url': screenshot.screenshot_url
+        'screenshot_url': screenshot.screenshot_url,
+        'page_title': game.title,
     }
 
     if request.method == 'POST':
@@ -107,7 +111,7 @@ def game_viewer(request, game_id):
 
     context['review_form'] = form
 
-    return render(request, 'Gamers/content/game.html', context)
+    return render(request, 'Gamers/game_viewer.html', context)
 
 
 def game_list(request):
@@ -120,11 +124,21 @@ def game_list(request):
         if rating == None:
             rating = 0
 
+        
+        try:
+            screenshot = Screenshot.objects.get(game=item).screenshot_url
+        except:
+            screenshot = None
+        
+
         temp = {
             'game': item,
             'rating': rating,
+            'screenshot': screenshot
         }
         
         gameandscore.append(temp)
 
-    return render(request, 'Gamers/content/gamelist.html', {'gameandscore': gameandscore})
+    gameandscore = [gameandscore[i:i+3] for i in range(0, len(gameandscore), 3)]
+
+    return render(request, 'Gamers/content/gamelist.html', {'gameandscore': gameandscore, 'page_title': 'LIST'})
