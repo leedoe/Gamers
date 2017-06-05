@@ -3,12 +3,23 @@
 {% block content %}
 <div class="container">
     <div>
-    {% for item in gameandscore %}
-        <div class="game_content">
-            <div class="title"><a href="/game/{{ item.game.id }}/">{{ item.game.title }}</a></div>
-            <div class="rating">{{ item.rating }}</div>
+        {% for games in gameandscore %}
+        <div class="row">
+            {% for item in games %}
+            <div class="col s12 m12 l4 game_content">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{{ item.screenshot }}">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title"><a href="/game/{{ item.game.id }}/">{{ item.game.title }}</a></span>
+                        <p>{{ item.rating }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

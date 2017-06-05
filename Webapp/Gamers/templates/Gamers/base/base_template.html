@@ -15,7 +15,7 @@
     {% block css%}
     {% endblock %}
 </head>
-<body>
+<body class="blue-grey lighten-5">
 <script src="{% static "jQuery/jquery-3.2.1.min.js" %}"></script>
 <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
 <script src="{% static "materialize/js/materialize.js" %}"></script>
@@ -25,24 +25,8 @@
 
 {% include 'Gamers/base/left_menu.html' %}
 
-<!--
-<div class="container">
-    {% for row in game %}
-    <div class="row">
-        {% for col, screenshot in row %}
-        <div class="col s12 m6 l3 z-depth-4" style="background-color:red;">
-            <div><img src="{{ screenshot.screenshot_url }}" height="100px"></div>
-            {{col.title}}<br>
-            {{col.release_date|date:'Y년 n월 j일'}}<br>
-        </div>
-        {% endfor %}
-    </div>
-    <div class="divider"></div>
-    {% endfor %}
-</div>
--->
 <div class="main-body z-depth-0">
-    <nav class="nav-title">
+    <nav class="nav-title blue-grey darken-4">
         <div class="nav-wrapper">
             <a href="#" class="brand-logo center">{{ page_title }}</a>
         </div>
