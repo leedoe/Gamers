@@ -46,3 +46,9 @@ img.avatar {
     padding: 15px;
     color: rgba(255, 255, 255, 1); 
 }
+
+li.account-info a {
+    width: auto;
+    height: auto;
+    display: inline-block;
+}

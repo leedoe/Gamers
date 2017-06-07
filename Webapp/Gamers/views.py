@@ -115,7 +115,7 @@ def game_viewer(request, game_id):
 
 
 def game_list(request):
-    game_list = Game.objects.all()
+    game_list = Game.objects.filter(authen=True)[:12]
 
     gameandscore = []
 
@@ -124,12 +124,7 @@ def game_list(request):
         if rating == None:
             rating = 0
 
-        
-        try:
-            screenshot = Screenshot.objects.get(game=item).screenshot_url
-        except:
-            screenshot = None
-        
+        screenshot = Screenshot.objects.get(game=item).screenshot_url
 
         temp = {
             'game': item,
