@@ -74,8 +74,8 @@ def get_game_data(appid):
 
         title = bs.find('div', class_='apphub_AppName').text
         if Game.objects.filter(title=title).exists():
-            print(str(num) + '/' + str(len(appid)))
-            num = num + 1
+            # print(str(num) + '/' + str(len(appid)))
+            # num = num + 1
             continue
 
         release_date = convert_release_date(bs.find('span', class_='date').text)
@@ -106,31 +106,35 @@ def get_game_data(appid):
         publishers = []
         
         for g in genres_raw:
-            genres.append(g.text.strip())
+            genres.append(g.text.strip().replace(',', ' '))
 
         for d in developers_raw:
-            developers.append(d.text.strip())
+            developers.append(d.text.strip().replace(',', ' '))
         
         for p in publishers_raw:
-            publishers.append(p.text.strip())
+            publishers.append(p.text.strip().replace(',', ' '))
 
-        screenshot = bs.find('a', class_='highlight_screenshot_link')['href'][43:].replace('1920x1080', '600x338')
         
+        try:
+            screenshot = bs.find('a', class_='highlight_screenshot_link')['href'][43:].replace('1920x1080', '600x338')
+        except:
+            screenshot = None
 
         content = {}
         content['title'] = title
         content['release_date'] = release_date
         content['homepage'] = homepage
-        content['platforms'] = platforms.replace(',', ' ')
-        content['genres'] = genres.replace(',', ' ')
-        content['developers'] = developers.replace(',', ' ')
-        content['publishers'] = publishers.replace(',', ' ')
+        content['platforms'] = platforms
+        content['genres'] = genres
+        content['developers'] = developers
+        content['publishers'] = publishers
         content['screenshot'] = screenshot
 
         content_list.append(content)
 
-        print(str(num) + '/' + str(len(appid)))
-        num = num + 1
+        # print(str(num) + '/' + str(len(appid)))
+        # num = num + 1
+    print("DONE")
     return content_list
 
 
@@ -144,11 +148,14 @@ def save_object(content):
         )
 
         if created == False:
+            #if item['screenshot'] != None:
+            #    screenshot = Screenshot.objects.get_or_create(game=obj)
+            #    screenshot.screenshot_url = item['screenshot']
+            #    screenshot.save()
             print('exist already')
             continue
-
-        
-        obj.save()
+        else:
+            obj.save()
 
         for platform in item['platforms']:
             temp, created = Platform.objects.get_or_create(name=platform)
@@ -177,5 +184,9 @@ def save_object(content):
     
 
 
-game_list = get_game_data(get_appid_steam(10))
+game_list = get_game_data(get_appid_steam(3))
 save_object(game_list)
+
+#for item in game_list:
+#    if item['title'] == "PLAYERUNKNOWN'S BATTLEGROUNDS":
+#        print(item['screenshot'])

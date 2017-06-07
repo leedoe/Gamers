@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 # Game Developer
 class Developer(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
@@ -15,7 +15,7 @@ class Developer(models.Model):
 
 # Game Publisher
 class Publisher(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
@@ -23,7 +23,7 @@ class Publisher(models.Model):
 
 # Game Platform
 class Platform(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
@@ -31,14 +31,10 @@ class Platform(models.Model):
 
 # Game Genre
 class Genre(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
-
-
-def no_validation(value):
-    return True
 
 
 # Game Informations
@@ -52,7 +48,7 @@ class Game(models.Model):
     publishers = models.ManyToManyField(Publisher)
     platforms = models.ManyToManyField(Platform)
     genres = models.ManyToManyField(Genre)
-    steam_id = models.IntegerField(null=True)
+    authen = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
