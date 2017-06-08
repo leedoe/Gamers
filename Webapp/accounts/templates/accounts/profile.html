@@ -1,22 +1,25 @@
-<!-- accounts/templates/accounts/profile.html -->
-{% load staticfiles %}
-<!DOCTYPE html>
-<html>
-<head>
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{% static "materialize/css/materialize.css"%}" type="text/css" rel="stylesheet" media="screen, projection">
-</head>
-<body>
-    {% include 'Gamers/menu.html' %}
-    <h1>{{ user }}'s Profile</h1>
+{% extends 'Gamers/base/base_template.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ user }}의 프로필</h1>
+    <!--
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit">
     </form>
-    <img src="{{ user.socialaccount_set.all.first.get_avatar_url }}">
-
-    <script src="{% static "jQuery/jquery-3.2.1.min.js" %}"></script>
-    <script src="{% static "materialize/js/materialize.js" %}"></script>
-</body>
-</html>
+    -->
+    <!--<img src="{{ user.socialaccount_set.all.first.get_avatar_url }}">-->
+    <table>
+        <tr>
+            <th>닉네임</th>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <th>이메일</th>
+            <td>{{ user.email }}</td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

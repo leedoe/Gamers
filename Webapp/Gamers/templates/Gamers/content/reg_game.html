@@ -19,7 +19,9 @@
 		<form method="POST" action="" id="form">
 			{% csrf_token %}
 			{{ form.as_p }}
-			<button type="submit">Save</button>
+			<span class="red-text">관리자 검토 후 게임 목록에 등록됩니다.</span><br>
+			<button class="btn" type="submit">저장</button>
+			
 		</form>
 	</div>
 </div>

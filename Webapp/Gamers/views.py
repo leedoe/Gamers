@@ -53,9 +53,10 @@ def register_game(request):
         form = GameForm(request.POST)
 
         if form.is_valid():
+            form.authen = False
             temp = form.save()
 
-            return redirect('/gamers/' + str(temp.pk))
+            return redirect('/game/' + str(temp.pk))
     else:
         form = GameForm()
 
@@ -66,7 +67,12 @@ def game_viewer(request, game_id):
     user = request.user
     game = Game.objects.get(pk=game_id)
     rating = Review.objects.filter(game = game_id).aggregate(Avg('score'))['score__avg']
-    screenshot = Screenshot.objects.get(game=game_id)
+    
+    try:
+        screenshot = Screenshot.objects.get(game=game_id)
+    except:
+        screenshot = None
+
     try:
         review_list = Review.objects.filter(Q(game=game_id), ~Q(user=user))
     except ObjectDoesNotExist:
@@ -84,7 +90,7 @@ def game_viewer(request, game_id):
         'game': game,
         'rating': rating,
         'review_list': review_list,
-        'screenshot_url': screenshot.screenshot_url,
+        'screenshot': screenshot,
         'page_title': game.title,
     }
 
