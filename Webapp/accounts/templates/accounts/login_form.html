@@ -1,15 +1,10 @@
 <!-- accounts/templates/accounts/login_form.html -->
+{% extends 'Gamers/base/base_template.html' %}
 {% load socialaccount %}
 {% load staticfiles %}
 <!DOCTYPE html>
-<html>
-<head>
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="{% static "materialize/css/materialize.css"%}" type="text/css" rel="stylesheet" media="screen, projection">
-</head>
-<body>
-    {% include 'Gamers/menu.html' %}
-    
+
+{% block content %}
     <div class="container">
     <ul>
         {% for provider in providers %}
@@ -27,8 +22,4 @@
         {% endfor %}
     </ul>
     </div>
-
-    <script src="{% static "jQuery/jquery-3.2.1.min.js" %}"></script>
-    <script src="{% static "materialize/js/materialize.js" %}"></script>
-</body>
-</html>
+{% endblock %}

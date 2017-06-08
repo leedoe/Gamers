@@ -81,8 +81,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'reviewer.wsgi.application'
 
-LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/accounts/profile/'
+# LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
 
 
 # Database
@@ -128,8 +128,8 @@ AUTHENTICATION_BACKENDS = [
 
 # django allauth
 SITE_ID = 1
-ACCOUNT_EMAIL_REQUIRED = True
-SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = False
+SOCIALACCOUNT_QUERY_EMAIL = False
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
 
 

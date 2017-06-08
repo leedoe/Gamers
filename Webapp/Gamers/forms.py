@@ -61,8 +61,16 @@ class GameForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(GameForm, self).__init__(*args, **kwargs)
-        self.fields['title'].widget.attrs['placeholder'] = "Enter the Game Title"
-        self.fields['homepage'].widget.attrs['placeholder'] = "http://test.com"
+        self.fields['title'].label = "게임명"
+        self.fields['release_date'].label = "출시일"
+        self.fields['homepage'].label = "홈페이지"
+        self.fields['developers'].label = "개발사 (태그는 ,(쉼표)로 구분해주세요.)"
+        self.fields['publishers'].label = "제공사 (태그는 ,(쉼표)로 구분해주세요.)"
+        self.fields['platforms'].label = "플랫폼 (태그는 ,(쉼표)로 구분해주세요.)"
+        self.fields['genres'].label = "장르 (태그는 ,(쉼표)로 구분해주세요.)"
+        self.fields['title'].widget.attrs['placeholder'] = "게임명을 입력해주세요"
+        self.fields['homepage'].widget.attrs['placeholder'] = "ex) http://test.com"
+        self.fields['developers'].widget.attrs['placeholder'] = "태그는 ,(쉼표)로 구분해주세요."
 
 
 class ReviewForm(ModelForm):
