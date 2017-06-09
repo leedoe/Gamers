@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout',
         kwargs={'next_page': settings.LOGIN_URL}),
     url(r'^profile/$', views.profile, name='profile'),
+    url(r'^modi_profile/$', views.modify_profile, name='modi'),
 ]

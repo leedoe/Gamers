@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.views import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -26,13 +26,21 @@ def login(request):
 
 @login_required
 def profile(request):
+    return render(request, 'accounts/profile.html')
+
+
+@login_required
+def modify_profile(request):
     user = request.user
     if request.method == 'POST':
         form = UsernameEditForm(request.POST, instance=user)
 
         if form.is_valid():
             form.save()
-    else:
-        form = UsernameEditForm(initial={'username': user.username,'email': user.email})
 
-    return render(request, 'accounts/profile.html', {'form': form})
+            return redirect("profile")
+
+    else:
+        form = UsernameEditForm(initial = {'username': user.username})
+
+    return render(request, 'accounts/modi_profile.html', {'form': form})

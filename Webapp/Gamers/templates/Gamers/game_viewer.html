@@ -13,7 +13,7 @@
 {% block content %}
 <div class="container">
     <div class="game">
-        <img src="{{ screenshot_url }}">
+        <img src="{{ screenshot }}">
         <div class="rate">
             <input type="number" class="rating"
                 data-min="0" data-max="10" data-step="1"
@@ -62,7 +62,7 @@
         <h1>리뷰</h1>
         {% for item in review_list %}
             <div class="review">
-                <h2>{{ item.user }}</h2>
+                <h3>{{ item.user }}</h3>
                 <input type="number" class="rating" 
 				    data-min="0" data-max="10" data-step="1"
 				    data-show-clear='false' data-show-caption='false'

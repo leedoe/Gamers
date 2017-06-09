@@ -1,9 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Game List</title>
-</head>
-<body>
-{{game}}
-</body>
-</html>
+{% extends 'Gamers/base/base_template.html' %}
+{% load staticfiles %}
+
+{% block css %}
+<link href="{% static "starrating/css/star-rating.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+<script src="{% static "starrating/js/star-rating.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div>
+        {% for games in gameandscore %}
+        <div class="row">
+            {% for item in games %}
+            <div class="col s12 m12 l4 game_content">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{{ item.screenshot }}">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title"><a href="/game/{{ item.game.id }}/">{{ item.game.title }}</a></span>
+                        <!--<p>{{ item.rating }}</p>-->
+                        <input type="number" class="rating" 
+				            data-min="0" data-max="10" data-step="1"
+				            data-show-clear='false' data-show-caption='false'
+				            value="{{ item.rating }}" data-size='xs'>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    $('.rating').rating({displayOnly:true});
+</script>
+{% endblock %}
