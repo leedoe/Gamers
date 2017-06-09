@@ -60,18 +60,14 @@ def register_game(request):
     else:
         form = GameForm()
 
-    return render(request, 'Gamers/content/reg_game.html', {'form': form, 'page_title': 'REGISTER'})
+    return render(request, 'Gamers/reg_game.html', {'form': form, 'page_title': 'REGISTER'})
 
 
 def game_viewer(request, game_id):
     user = request.user
     game = Game.objects.get(pk=game_id)
     rating = Review.objects.filter(game = game_id).aggregate(Avg('score'))['score__avg']
-    
-    try:
-        screenshot = Screenshot.objects.get(game=game_id)
-    except:
-        screenshot = None
+    screenshot = Screenshot.objects.get(game=game_id).screenshot_url
 
     try:
         review_list = Review.objects.filter(Q(game=game_id), ~Q(user=user))
@@ -91,7 +87,6 @@ def game_viewer(request, game_id):
         'rating': rating,
         'review_list': review_list,
         'screenshot': screenshot,
-        'page_title': game.title,
     }
 
     if request.method == 'POST':
@@ -109,6 +104,7 @@ def game_viewer(request, game_id):
             else:
                 my_review.score = form.cleaned_data['score']
                 my_review.content = form.cleaned_data['content']
+                my_review.save()
     else:
         if my_review is None:
             form = ReviewForm()
@@ -142,4 +138,4 @@ def game_list(request):
 
     gameandscore = [gameandscore[i:i+3] for i in range(0, len(gameandscore), 3)]
 
-    return render(request, 'Gamers/content/gamelist.html', {'gameandscore': gameandscore, 'page_title': 'LIST'})
+    return render(request, 'Gamers/gamelist.html', {'gameandscore': gameandscore})

@@ -11,17 +11,17 @@
     </form>
     -->
     <!--<img src="{{ user.socialaccount_set.all.first.get_avatar_url }}">-->
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_table }}
     <table>
-        <tr>
-            <th>닉네임</th>
-            <td>{{ user.username }}</td>
-        </tr>
         <tr>
             <th>이메일</th>
             <td>{{ user.email }}</td>
         </tr>
     </table>
 
-    <a href="{% url 'modi' %}"><button class="btn">닉네임 수정</button></a>
+    <button class="btn" type="submit">수정</button>
+    </form>
 </div>
 {% endblock %}

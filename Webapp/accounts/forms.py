@@ -15,4 +15,8 @@ class UsernameEditForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username']
+
+    def __init__(self, *args, **kwargs):
+        super(UsernameEditForm, self).__init__(*args, **kwargs)
+        self.fields['username'].label = "닉네임"
