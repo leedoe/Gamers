@@ -56,7 +56,7 @@ class Game(models.Model):
 
 # Game Screenshot
 class Screenshot(models.Model):
-    screenshot_url = models.URLField()
+    screenshot_url = models.URLField(default='http://www.visitcrickhowell.co.uk/wp-content/themes/cricwip/images/noimage_595.png')
     game = models.ForeignKey(Game, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
