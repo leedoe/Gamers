@@ -37,24 +37,32 @@ def get_appid_ps4(pages):
 
 
 def get_detail(appid):
+    contents = []
     driver = webdriver.Chrome()
     for item in appid:
         driver.get('http://www.playstation.co.kr' + item)
         detail = driver.page_source
 
         bs = BeautifulSoup(detail, 'lxml')
-        title = bs.find('h3', class_='title').text
+        title = bs.find('h3', class_='title').text.replace(',', ' ')
         ul = bs.find('ul', class_='floatL spec_txt').find_all('li')
-        developer = ul[0].text.split(' : ')[1]
-        publisher = ul[1].text.split(' : ')[1]
-        genre = ul[2].text.split(' : ')[1]
-        release_date = ul[3].text.split(' : ')[1]
+        developer = ul[0].text.split(' : ')[1].replace(',', ' ')
+        publisher = ul[1].text.split(' : ')[1].replace(',', ' ')
+        genre = ul[2].text.split(' : ')[1].replace(',', ' ')
+        release_date = ul[3].text.split(' : ')[1][:10]
 
-        print(title)
-        print(developer)
-        print(publisher)
-        print(genre)
-        print(release_date)
+        content = {
+            'title': title,
+            'developer': developer,
+            'publisher': publisher,
+            'genre': genre,
+            'release_date': release_date
+        }
+
+        contents.append(content)
+
+    return contents
+        
 
     """
     game = bs.find('div',class_='game_disc')
@@ -80,5 +88,43 @@ def get_detail(appid):
         print(item.find('p').text)
     """
 
-get_detail(get_appid_ps4(2))
+def save_data(content):
+    for item in content:
+        title = item['title']
+        developer = item['developer']
+        publisher = item['publisher']
+        genre = item['genre']
+        release_date = item['release_date']
+        platform = Platform.objects.get(name='PS4')
+
+        obj, created = Game.objects.update_or_create(
+            title = title,
+            release_date = release_date,
+        )
+
+        if created == False:
+            print('exist already')
+            continue
+        else:
+            obj.save()
+
+        temp, created = Developer.objects.get_or_create(name=developer)
+        obj.developers.add(temp)
+
+        temp, created = Publisher.objects.get_or_create(name=publisher)
+        obj.publishers.add(temp)
+
+        temp, created = Genre.objects.get_or_create(name=genre)
+        obj.genres.add(temp)
+
+        obj.platforms.add(platform)
+
+        print('Save object!!')
+
+
+    
+
+
+content = get_detail(get_appid_ps4(5))
+save_data(content)
 #print(get_appid_ps4(2))
