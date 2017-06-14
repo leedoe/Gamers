@@ -4,6 +4,7 @@ import requests
 import codecs
 import re
 import os
+import json
 from bs4 import BeautifulSoup
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE',"reviewer.settings")
@@ -14,9 +15,9 @@ from Gamers.models import Game, Developer, Genre, Publisher, Platform, Screensho
 
 
 # stroe.steampowered 페이지에 있는 게임 목록을 가져옴
-def get_appid_steam(page_number):
+def get_appid_steam(start, end, gamelist):
     appid = []
-    for i in range(1, page_number):
+    for i in range(start, end):
         req = urllib.request.Request(
             'http://store.steampowered.com/search/?page=' + str(i),
             data=None,
@@ -31,7 +32,8 @@ def get_appid_steam(page_number):
         appid_row = bs.find_all('a', class_='search_result_row ds_collapse_flag')
     
         for item in appid_row:
-            appid.append(item['data-ds-appid'])
+            if item.find('span', class_='title').text not in gamelist:
+                appid.append(item['data-ds-appid'])
     
     return appid
 
@@ -56,8 +58,7 @@ def convert_release_date(release_date_raw):
 
 # 스팀에서 게임 데이터를 가져옴(title, release_date, homepage, genre, developer, publisher, screenshot)
 def get_game_data(appid):
-    content_list = []
-    num = 1
+    content_list = {}
     for item in appid:
         url = 'http://store.steampowered.com/app/' + str(item)
         req = urllib.request.Request(
@@ -72,11 +73,14 @@ def get_game_data(appid):
         f = urllib.request.urlopen(req).read().decode('utf-8')
         bs = BeautifulSoup(f, 'lxml')
 
+        
         title = bs.find('div', class_='apphub_AppName').text
+        """
         if Game.objects.filter(title=title).exists():
-            # print(str(num) + '/' + str(len(appid)))
-            # num = num + 1
+            print(str(num) + '/' + str(len(appid)))
+            num = num + 1
             continue
+        """
 
         release_date = convert_release_date(bs.find('span', class_='date').text)
         homepage_raw = bs.find('a', class_='linkbar', attrs={'rel':'noreferrer'})
@@ -130,21 +134,17 @@ def get_game_data(appid):
         content['publishers'] = publishers
         content['screenshot'] = screenshot
 
-        content_list.append(content)
-
-        # print(str(num) + '/' + str(len(appid)))
-        # num = num + 1
+        content_list[title] = content
     print("DONE")
     return content_list
 
 
 # Game모델 저장(genre, developer, publisher 관계연결), Screenshot모델 저장
 def save_object(content):
-    for item in content:
+    for gametitle, item in content.items():
         obj, created = Game.objects.update_or_create(
             title = item['title'],
-            release_date = item['release_date'],
-            homepage = item['homepage'],
+            release_date = item['release_date']
         )
 
         if created == False:
@@ -152,7 +152,10 @@ def save_object(content):
             #    screenshot = Screenshot.objects.get_or_create(game=obj)
             #    screenshot.screenshot_url = item['screenshot']
             #    screenshot.save()
-            print('exist already')
+            obj.homepage = item['homepage']
+            obj.save()
+
+            print(item['title'] + ' exist already')
             continue
         else:
             obj.save()
@@ -175,17 +178,22 @@ def save_object(content):
 
         screenshot = Screenshot.objects.get_or_create(screenshot_url=item['screenshot'], game=obj)
 
-        print('Save object!')
+        print(item['title'] + ' Save object!')
 
         
 
-        
+with open('./gamelist.json', 'r') as f:
+    gamelist = json.load(f)
 
-    
+game_list = get_game_data(get_appid_steam(9, 11, gamelist))
+gamelist.update(game_list)
 
+with open("./gamelist.json", 'w') as f:
+    json.dump(gamelist, f)
+    # f.write(json.dumps(item))
 
-game_list = get_game_data(get_appid_steam(3))
-save_object(game_list)
+print(gamelist)
+save_object(gamelist)
 
 #for item in game_list:
 #    if item['title'] == "PLAYERUNKNOWN'S BATTLEGROUNDS":
