@@ -37,21 +37,30 @@ class Genre(models.Model):
         return self.name
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=100,unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 # Game Informations
 class Game(models.Model):
     title = models.CharField(
         max_length=255,
         unique=True,)
-    release_date = models.DateField()
+    release_date = models.DateField(null=True)
     homepage = models.URLField(null=True)
     developers = models.ManyToManyField(Developer)
     publishers = models.ManyToManyField(Publisher)
     platforms = models.ManyToManyField(Platform)
     genres = models.ManyToManyField(Genre)
+    tags = models.ManyToManyField(Tag)
     authen = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
+
 
 
 # Game Screenshot
@@ -74,3 +83,4 @@ class Review(models.Model):
 
     class Meta:
         unique_together = ('user', 'game')
+

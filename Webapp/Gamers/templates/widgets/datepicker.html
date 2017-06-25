@@ -1,5 +1,6 @@
 <!-- datepicker -->
 {% load staticfiles %}
+<!--
 <script src="{% static "datepicker/js/bootstrap-datepicker.js" %}"></script>
 <div id="sandbox-container">
     <input name="{{ name }}" type="text" class="form-control" data-date-format="yyyy-mm-dd">
@@ -8,4 +9,15 @@
 $('#sandbox-container input').datepicker({
 	autoclose: true
 });
+</script>
+-->
+
+<input type="date" class="datepicker">
+
+<script>
+    $('.datepicker').pickadate({
+        selectMonths: true,
+        selectYears: 15,
+        format: 'yyyy-mm-dd',
+    });
 </script>
