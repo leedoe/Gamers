@@ -1,0 +1,132 @@
+{% extends 'Gamers/base/base_template.html' %}
+
+{% load staticfiles %}
+
+{% block css %}
+<link href="{% static "starrating/css/star-rating.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+<script src="{% static "starrating/js/star-rating.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form method="GET" name="gamesearch">
+        <input type="hidden" value="1" name="page">
+        <div class="row grey lighten-5 z-depth-1 searchpanel">
+            <div class="input-field col s3">
+                <select id="section" name="section">
+                    <option value="" disabled selected>선택해 주세요</option>
+                    <option value="gam_name">게임명</option>
+                    <option value="dev_name">개발사</option>
+                    <option value="pub_name">제공사</option>
+                    <option value="gen_name">장르</option>
+                    <option value="tag_name">태그</option>
+                </select>
+                <label>검색 분류</label>
+            </div>
+            <div class="input-field col s7">
+                <input type="text" id="autocomplete-input" class="autocomplete" name="item">
+                <label for="autocomplete-input">검색어</label>
+            </div>
+            <div class="input-field col s2">
+                <button class="btn waves-effect waves-light" type="submit">
+                    검색
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    {% if isContent == True %}
+    <div>
+        {% for games in gameandscore %}
+        <div class="row">
+            {% for item in games %}
+            <div class="col s12 m12 l4 game_content">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="{{ item.screenshot }}">
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title"><a href="/game/{{ item.game.id }}/">{{ item.game.title }}</a></span>
+                        <!--<p>{{ item.rating }}</p>-->
+                        <input type="number" class="rating" 
+				            data-min="0" data-max="10" data-step="1"
+				            data-show-clear='false' data-show-caption='false'
+				            value="{{ item.rating }}" data-size='xs'>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col s12 page_div">
+                <ul class="pagination">
+                    {% if pagination.has_previous %}
+                    <li class="waves-effect"><a href="?section={{ inputitem.section }}&item={{ inputitem.item }}&page={{ pagination.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+                    {% else %}
+                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                    {% endif %}
+                    {% for page_number in range %}
+                    {% if pagination.number  == page_number %}
+                    <li class="active"><a href="#!">{{ page_number }}</a></li>
+                    {% else %}
+                    <li class="waves-effect"><a href="?section={{ inputitem.section }}&item={{ inputitem.item }}&page={{ page_number }}">{{ page_number }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if pagination.has_next %}
+                    <li class="waves-effect"><a href="?section={{ inputitem.section }}&item={{ inputitem.item }}&page={{ pagination.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+                    {% else %}
+                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    var auto;
+    var selected;
+    $(document).ready(function(){
+        $('select').material_select();
+
+        selected = $('#section')
+        $('#section').on('change', function(e){
+            if(selected.val() == 'gam_name'){
+                auto = $('input.autocomplete').autocomplete({
+                    data : {{ autocomplete_data.gametitle|safe }},
+                    minLength: 3,
+                });
+            }else if(selected.val() == 'dev_name'){
+                auto = $('input.autocomplete').autocomplete({
+                    data : {{ autocomplete_data.developername|safe }},
+                    minLength: 3,
+                });
+            }else if(selected.val() == 'pub_name'){
+                auto = $('input.autocomplete').autocomplete({
+                    data : {{ autocomplete_data.publishername|safe }},
+                    minLength: 3,
+                });
+            }else if(selected.val() == 'gen_name'){
+                auto = $('input.autocomplete').autocomplete({
+                    data : {{ autocomplete_data.genrename|safe }},
+                    minLength: 2,
+                });
+            }else if(selected.val() == 'tag_name'){
+                auto = $('input.autocomplete').autocomplete({
+                    data : {{ autocomplete_data.tagname|safe }},
+                    minLength: 2,
+                });
+            }
+            
+        });
+    });
+
+    $('.rating').rating({displayOnly:true});
+</script>
+{% endblock %}

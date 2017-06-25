@@ -13,6 +13,13 @@ import django
 django.setup()
 from Gamers.models import Game, Developer, Genre, Publisher, Platform, Screenshot
 
+genreKtoE = {
+    '레이싱': 'Racing',
+    '어드벤쳐': 'Adventure',
+    '액션': 'Action',
+    '스포츠': 'Sports',
+}
+
 
 # stroe.steampowered 페이지에 있는 게임 목록을 가져옴
 def get_appid_ps4(pages):

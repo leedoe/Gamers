@@ -3,8 +3,10 @@ from django.template.context import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg, Q
 from django.contrib.auth.decorators import login_required
-from .models import Game, Developer, Publisher, Platform, Genre, Review, Screenshot
+from .models import Game, Developer, Publisher, Platform, Genre, Review, Screenshot, Tag
 from .forms import GameForm, ReviewForm
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+import json
 
 
 
@@ -26,25 +28,7 @@ def login_page(request):
 
 
 def main(request):
-
-
-    game_list = []
-    temp = []
-    i = 0
-    for item in Game.objects.all():
-        try:
-            sc = Screenshot.objects.get(game=item)
-        except:
-            sc = None
-        tu = (item, sc)
-        temp.append(tu)
-        i = i + 1
-        if i == 4:
-            game_list.append(temp)
-            temp = []
-            i = 0
-
-    return render(request, 'Gamers/main.html', {'game': game_list, 'page_title': 'TESTPAGE'})
+    return render(request, 'Gamers/main.html')
 
 
 def register_game(request):
@@ -117,8 +101,46 @@ def game_viewer(request, game_id):
 
 
 def game_list(request):
-    game_list = Game.objects.filter(authen=True)
+    gameandscore = []
+    game_list = Game.objects.filter(authen=True).order_by('-release_date')
+    paginator = Paginator(game_list, 15)
 
+    page = request.GET.get('page')
+
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        contacts = paginator.page(1)
+    except EmptyPage:
+        contacts = paginator.page(paginator.num_pages)
+
+    for item in contacts.object_list:
+        rating = Review.objects.filter(game=item).aggregate(Avg('score'))['score__avg']
+        if rating == None:
+            rating = 0
+
+        screenshot = Screenshot.objects.get(game=item).screenshot_url
+
+        temp = {
+            'game': item,
+            'rating': rating,
+            'screenshot': screenshot
+        }
+        
+        gameandscore.append(temp)
+
+    gameandscore = [gameandscore[i:i+3] for i in range(0, len(gameandscore), 3)]
+
+    
+    if int(page) % 5 == 0:
+        page_start = int(int(page) / 5 - 1) * 5 + 1
+    else:
+        page_start = int(int(page) / 5) * 5 + 1
+    page_end = page_start + 5
+    if page_end > paginator.num_pages:
+            page_end = paginator.num_pages + 1
+    return render(request, 'Gamers/gamelist.html', {'gameandscore': gameandscore, 'pagination': contacts, 'range': range(page_start, page_end)})
+"""
     gameandscore = []
 
     for item in game_list:
@@ -140,5 +162,96 @@ def game_list(request):
         gameandscore.append(temp)
 
     gameandscore = [gameandscore[i:i+3] for i in range(0, len(gameandscore), 3)]
+"""
 
-    return render(request, 'Gamers/gamelist.html', {'gameandscore': gameandscore})
+
+def game_search(request):
+    contacts = None
+    gameandscore = []
+    searched_list = None
+
+    gametitle = {}
+    developername = {}
+    publishername = {}
+    genrename = {}
+    tagname = {}
+    for item in Game.objects.all().order_by('title'):
+        gametitle[item.title] = None
+
+    for item in Developer.objects.all().order_by('name'):
+        developername[item.name] = None
+
+    for item in Publisher.objects.all().order_by('name'):
+        publishername[item.name] = None
+
+    for item in Genre.objects.all().order_by('name'):
+        genrename[item.name] = None
+    
+    for item in Tag.objects.all().order_by('name'):
+        tagname[item.name] = None
+
+    autocomplete_data = {
+        'gametitle': json.dumps(gametitle),
+        'developername': json.dumps(developername),
+        'publishername': json.dumps(publishername),
+        'genrename': json.dumps(genrename),
+        'tagname': json.dumps(tagname),
+    }
+
+    if request.GET.get('section') != None:
+        inputitem = {
+            'section': request.GET.get('section'),
+            'item': request.GET.get('item'),
+        }
+
+        if inputitem['section'] == 'gam_name':
+            searched_list = Game.objects.filter(title__icontains=inputitem['item']).order_by('-release_date')
+        elif inputitem['section'] == 'dev_name':
+            searched_list = Game.objects.filter(developers__name__icontains=inputitem['item']).order_by('-release_date')
+        elif inputitem['section'] == 'pub_name':
+            searched_list = Game.objects.filter(publishers__name__icontains=inputitem['item']).order_by('-release_date')
+        elif inputitem['section'] == 'gen_name':
+            searched_list = Game.objects.filter(genres__name__icontains=inputitem['item']).order_by('-release_date')
+        elif inputitem['section'] == 'tag_name':
+            searched_list = Game.objects.filter(tags__name__icontains=inputitem['item']).order_by('-release_date')
+
+        paginator = Paginator(searched_list, 15)
+
+        page = request.GET.get('page')
+
+        try:
+            contacts = paginator.page(page)
+        except PageNotAnInteger:
+            contacts = paginator.page(1)
+        except EmptyPage:
+            contacts = paginator.page(paginator.num_pages)
+
+        for game in contacts.object_list:
+            rating = Review.objects.filter(game=game).aggregate(Avg('score'))['score__avg']
+            if rating == None:
+                rating = 0
+
+            screenshot = Screenshot.objects.get(game=game).screenshot_url
+
+            temp = {
+                'game': game,
+                'rating': rating,
+                'screenshot': screenshot
+            }
+            
+            gameandscore.append(temp)
+
+        gameandscore = [gameandscore[i:i+3] for i in range(0, len(gameandscore), 3)]
+
+        
+        if int(page) % 5 == 0:
+            page_start = int(int(page) / 5 - 1) * 5 + 1
+        else:
+            page_start = int(int(page) / 5) * 5 + 1
+        page_end = page_start + 5
+        if page_end > paginator.num_pages:
+            page_end = paginator.num_pages + 1
+
+        return render(request, 'Gamers/game_search.html', {'isContent': True, 'gameandscore': gameandscore, 'pagination': contacts, 'range': range(page_start, page_end), 'inputitem': inputitem, 'autocomplete_data': autocomplete_data})
+    return render(request, 'Gamers/game_search.html', {'isContent': False, 'autocomplete_data': autocomplete_data})
+    

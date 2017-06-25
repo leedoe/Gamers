@@ -55,3 +55,16 @@ div.container {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
+div.page_div {
+    text-align: center;
+}
+
+div.searchpanel {
+    border-radius: 5px;
+}
+
+div.content {
+    border-radius: 5px;
+    padding: 10px;
+}

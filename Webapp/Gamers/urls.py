@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^$', views.main, name='main'),
     url(r'^register/$', views.register_game, name='register_game'),
     url(r'^game/(?P<game_id>\d+)/$', views.game_viewer, name='game_viewer'),
-    url(r'^gamelist$', views.game_list, name='game_list'),
+    url(r'^gamelist/$', views.game_list, name='game_list'),
+    url(r'^gamesearch/$', views.game_search, name='game_search'),
 ]
