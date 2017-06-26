@@ -12,6 +12,7 @@
 
 {% block content %}
 <div class="container">
+    <!--
     <div class="game">
         <img src="{{ screenshot }}">
         <div class="rate">
@@ -51,6 +52,71 @@
 			{% endfor %}
         </div>
     </div>
+    -->
+    <div class="row grey lighten-5 z-depth-1 gameinfo">
+        <div class="col s12 l7 gamepic">
+            <img class="gameimage" src="{{ screenshot }}">
+            <div class="rate">
+                <input type="number" class="rating"
+                    data-min="0" data-max="10" data-step="1"
+                    data-show-clear="false" data-show-caption="false"
+                    value="{{ rating }}" data-size="xs">
+            </div>
+        </div>
+        <div class="col s12 l5">
+            <table>
+                <tr>
+                    <th>게임명</th>
+                    <td>{{ game.title }}</td>
+                </tr>
+                <tr>
+                    <th>출시일</th>
+                    <td>{{ game.release_date }}</td>
+                </tr>
+                <tr>
+                    <th>홈페이지</th>
+                    <td>
+                        {% if game.homepage != None %}
+                        <a href="{{ game.homepage }}" target="_blank">{{ game.homepage }}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>개발사</th>
+                    <td>
+                        {% for item in game.developers.all %}
+			            {{ item }}, 
+			            {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>제공사</th>
+                    <td>
+                        {% for item in game.publishers.all %}
+			            {{ item }}, 
+			            {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>플랫폼</th>
+                    <td>
+                        {% for item in game.platforms.all %}
+			            {{ item }}, 
+			            {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>장르</th>
+                    <td>
+                        {% for item in game.genres.all %}
+			            {{ item }}, 
+			            {% endfor %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    {% if user.is_authenticated%}
     <div class="my_review">
         <form action="" method="POST">
             {% csrf_token %}
@@ -58,6 +124,7 @@
             <button type="submit">저장</button>
         </form>
     </div>
+    {% endif %}
     <div class="review_list">
         <h1>리뷰</h1>
         {% for item in review_list %}

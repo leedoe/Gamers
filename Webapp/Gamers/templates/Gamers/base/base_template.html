@@ -31,6 +31,9 @@
             <a href="#" class="brand-logo right black-text">GAMERS</a>
             <ul id="nav-mobile" class="left">
                 <li>
+                    <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons md-dark">menu</i></a>
+                </li>
+                <li>
                     <a class="dropdown-button" 
                     data-activates="dropdown1" 
                     data-beloworigin="true" 
@@ -53,9 +56,12 @@
     {% endif %}
 </ul>
 <script>
-    $('.dropdown-button').dropdown({
-        belowOrigin: true,
-    })
+    $(document).ready(function(){
+        $('.dropdown-button').dropdown({
+            belowOrigin: true,
+        })
+        $(".button-collapse").sideNav();
+    });
 </script>
 </body>
 </html>

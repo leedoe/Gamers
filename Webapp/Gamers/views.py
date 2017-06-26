@@ -48,19 +48,27 @@ def register_game(request):
 
 
 def game_viewer(request, game_id):
-    user = request.user
     game = Game.objects.get(pk=game_id)
     rating = Review.objects.filter(game = game_id).aggregate(Avg('score'))['score__avg']
     screenshot = Screenshot.objects.get(game=game_id).screenshot_url
 
-    try:
-        review_list = Review.objects.filter(Q(game=game_id), ~Q(user=user))
-    except ObjectDoesNotExist:
-        review_list = None
+    if request.user.is_authenticated == True:
+        user = request.user
+        try:
+            review_list = Review.objects.filter(Q(game=game_id), ~Q(user=user))
+        except ObjectDoesNotExist:
+            review_list = None
 
-    try:
-        my_review = Review.objects.get(game=game_id, user=user)
-    except ObjectDoesNotExist:
+        try:
+            my_review = Review.objects.get(game=game_id, user=user)
+        except ObjectDoesNotExist:
+            my_review = None
+    else:
+        try:
+            review_list = Review.objects.filter(game=game_id)
+        except ObjectDoesNotExist:
+            review_list = None
+        
         my_review = None
     
     if rating == None:
