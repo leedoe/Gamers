@@ -68,3 +68,22 @@ div.content {
     border-radius: 5px;
     padding: 10px;
 }
+
+div.gameinfo {
+    padding-top: 10px;
+    border-radius: 5px;
+}
+
+div.gamepic {
+    text-align: center;
+}
+
+img.gameimage {
+    width:100%;
+}
+
+@media only screen and (max-width: 992px) {
+    div.main-body {
+        margin-left: 0px;
+    }
+}

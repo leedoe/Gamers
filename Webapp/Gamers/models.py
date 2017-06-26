@@ -80,6 +80,9 @@ class Review(models.Model):
     content = models.TextField(null=True)
     write_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
+    like = models.IntegerField(default=0)
+    dislike = models.IntegerField(default=0)
+
 
     class Meta:
         unique_together = ('user', 'game')
