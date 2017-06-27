@@ -117,12 +117,17 @@
         </div>
     </div>
     {% if user.is_authenticated%}
+    <!--
     <div class="my_review">
         <form action="" method="POST">
             {% csrf_token %}
             {{ review_form.as_p }}
             <button type="submit">저장</button>
         </form>
+    </div>
+    -->
+    <div class="row grey lighten-5 z-depth-1 myreview">
+    {% include 'formTemplate/reviewForm.html' %}
     </div>
     {% endif %}
     <div class="review_list">

@@ -3,7 +3,7 @@ from django.template.context import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg, Q
 from django.contrib.auth.decorators import login_required
-from .models import Game, Developer, Publisher, Platform, Genre, Review, Screenshot, Tag
+from .models import Game, Developer, Publisher, Platform, Genre, Review, Screenshot, Tag, ThumbUpDown
 from .forms import GameForm, ReviewForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 import json
@@ -51,25 +51,37 @@ def game_viewer(request, game_id):
     game = Game.objects.get(pk=game_id)
     rating = Review.objects.filter(game = game_id).aggregate(Avg('score'))['score__avg']
     screenshot = Screenshot.objects.get(game=game_id).screenshot_url
+    reviews = []
+    myReview = {}
+
+    try:
+        review_list = Review.objects.filter(game=game_id)
+
+        for item in review_list:
+            tu = ThumbUpDown.objects.filter(review=item, thumb_up_down='Thumb Up').count()
+            td = ThumbUpDown.objects.filter(review=item, thumb_up_down='Thumb Down').count()
+
+            reviews.append({'review': item, 'thumbUp': tu, 'thumbDown': td})
+    except ObjectDoesNotExist:
+        review_list = None
 
     if request.user.is_authenticated == True:
         user = request.user
-        try:
-            review_list = Review.objects.filter(Q(game=game_id), ~Q(user=user))
-        except ObjectDoesNotExist:
-            review_list = None
 
         try:
             my_review = Review.objects.get(game=game_id, user=user)
+            tu = ThumbUpDown.objects.filter(review=item, thumb_up_down='Thumb Up').count()
+            td = ThumbUpDown.objects.filter(review=item, thumb_up_down='Thumb Down').count()
         except ObjectDoesNotExist:
             my_review = None
+            tu = 0
+            td = 0
     else:
-        try:
-            review_list = Review.objects.filter(game=game_id)
-        except ObjectDoesNotExist:
-            review_list = None
-        
         my_review = None
+        tu = 0
+        td = 0
+
+    myReview = {'my_review': my_review, 'thumbUp': tu, 'thumbDown': td}
     
     if rating == None:
         rating = 0
@@ -77,7 +89,8 @@ def game_viewer(request, game_id):
     context = {
         'game': game,
         'rating': rating,
-        'review_list': review_list,
+        'review_list': reviews,
+        'my_review': myReview,
         'screenshot': screenshot,
     }
 
@@ -103,7 +116,7 @@ def game_viewer(request, game_id):
         else:
             form = ReviewForm(initial = {'score':my_review.score, 'content':my_review.content})
 
-    context['review_form'] = form
+    context['reviewform'] = form
 
     return render(request, 'Gamers/game_viewer.html', context)
 
