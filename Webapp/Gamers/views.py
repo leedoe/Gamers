@@ -58,8 +58,8 @@ def game_viewer(request, game_id):
         review_list = Review.objects.filter(game=game_id)
 
         for item in review_list:
-            tu = ThumbUpDown.objects.filter(review=item, thumb_up_down='Thumb Up').count()
-            td = ThumbUpDown.objects.filter(review=item, thumb_up_down='Thumb Down').count()
+            tu = ThumbUpDown.objects.filter(review=item, thumb_up_down=1).count()
+            td = ThumbUpDown.objects.filter(review=item, thumb_up_down=-1).count()
 
             reviews.append({'review': item, 'thumbUp': tu, 'thumbDown': td})
     except ObjectDoesNotExist:
@@ -70,8 +70,8 @@ def game_viewer(request, game_id):
 
         try:
             my_review = Review.objects.get(game=game_id, user=user)
-            tu = ThumbUpDown.objects.filter(review=item, thumb_up_down='Thumb Up').count()
-            td = ThumbUpDown.objects.filter(review=item, thumb_up_down='Thumb Down').count()
+            tu = ThumbUpDown.objects.filter(review=item, thumb_up_down=1).count()
+            td = ThumbUpDown.objects.filter(review=item, thumb_up_down=-1).count()
         except ObjectDoesNotExist:
             my_review = None
             tu = 0
