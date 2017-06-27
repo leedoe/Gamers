@@ -80,10 +80,22 @@ class Review(models.Model):
     content = models.TextField(null=True)
     write_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
-    like = models.IntegerField(default=0)
-    dislike = models.IntegerField(default=0)
 
 
     class Meta:
         unique_together = ('user', 'game')
 
+
+class ThumbUpDown(models.Model):
+    THUMB = (
+        (1, 'Thumb Up'),
+        (0, 'Nothing'),
+        (-1, 'Thumb Down')
+    )
+
+    user = models.ForeignKey(User)
+    review = models.ForeignKey(Review)
+    thumb_up_down = models.IntegerField(choices=THUMB)
+
+    def __str__(self):
+        return user + review + str(thumb_up_down)

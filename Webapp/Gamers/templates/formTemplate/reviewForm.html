@@ -1,0 +1,31 @@
+{{ reviewform.non_field_errors }}
+
+    <div class="col s12">
+        <div class="fieldWrapper thumb">
+            {{ reviewform.score.errors }}
+            <label for="{{ reviewform.score.id_for_label }}">
+                점수
+            </label>
+            {{ reviewform.score }}
+        </div>
+        <div class="thumb right valign">
+            <i class="material-icons md-dark valign">thumb_up</i>{{ my_review.thumbUp }}
+        </div>
+        <div class="thumb right valign">
+            <i class="material-icons md-dark valign">thumb_down</i>{{ my_review.thumbDown }}
+        </div>
+    </div>
+
+    <div class="col s12 input-field">
+        {{ reviewform.content.errors }}
+        <label for="{{ reviewform.content.id_for_label }}">
+            내용
+        </label>
+        <textarea class="materialize-textarea" id="id_content" name="content"></textarea>
+    </div>
+
+    <div class="col s12">
+        <button class="btn waves-effect waves-light right" type="submit" name="action">리뷰 작성
+            <i class="material-icons right">send</i>
+        </button>
+    </div>

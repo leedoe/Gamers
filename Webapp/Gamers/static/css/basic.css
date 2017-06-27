@@ -87,3 +87,17 @@ img.gameimage {
         margin-left: 0px;
     }
 }
+
+div.thumb {
+    display:inline-block;
+}
+
+div.valign {
+    vertical-align: middle;
+}
+
+div.myreview {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+}
