@@ -11,7 +11,7 @@
 
 {% block content %}
 <div class="container">
-    <div class="content grey lighten-5 z-depth-1">
+    <div class="content">
         {% for games in gameandscore %}
         <div class="row">
             {% for item in games %}
@@ -32,6 +32,7 @@
             </div>
             {% endfor %}
         </div>
+        <hr>
         {% endfor %}
 
         <div class="row">

@@ -50,41 +50,25 @@ def register_game(request):
 def game_viewer(request, game_id):
     game = Game.objects.get(pk=game_id)
     rating = Review.objects.filter(game = game_id).aggregate(Avg('score'))['score__avg']
+    if rating == None:
+        rating = 0
     screenshot = Screenshot.objects.get(game=game_id).screenshot_url
     reviews = []
     myReview = {}
 
-    try:
-        review_list = Review.objects.filter(game=game_id)
-
-        for item in review_list:
-            tu = ThumbUpDown.objects.filter(review=item, thumb_up_down=1).count()
-            td = ThumbUpDown.objects.filter(review=item, thumb_up_down=-1).count()
-
-            reviews.append({'review': item, 'thumbUp': tu, 'thumbDown': td})
-    except ObjectDoesNotExist:
-        review_list = None
-
+    # 사용자가 인증되었으면
     if request.user.is_authenticated == True:
-        user = request.user
-
         try:
-            my_review = Review.objects.get(game=game_id, user=user)
-            tu = ThumbUpDown.objects.filter(review=item, thumb_up_down=1).count()
-            td = ThumbUpDown.objects.filter(review=item, thumb_up_down=-1).count()
+            my_review = Review.objects.get(game=game_id, user=request.user)
+            tu = ThumbUpDown.objects.filter(review=my_review, thumb_up_down=1).count()
+            td = ThumbUpDown.objects.filter(review=my_review, thumb_up_down=-1).count()
         except ObjectDoesNotExist:
             my_review = None
             tu = 0
             td = 0
-    else:
-        my_review = None
-        tu = 0
-        td = 0
 
-    myReview = {'my_review': my_review, 'thumbUp': tu, 'thumbDown': td}
-    
-    if rating == None:
-        rating = 0
+        # myReview에 내 리뷰 정보와 thumb정보 저장
+        myReview = {'my_review': my_review, 'thumbUp': tu, 'thumbDown': td}
 
     context = {
         'game': game,
@@ -104,18 +88,30 @@ def game_viewer(request, game_id):
                     game = game,
                     score = form.cleaned_data['score'], 
                     content = form.cleaned_data['content'])
-                print(form.cleaned_data['content'])
                 review.save()
             else:
                 my_review.score = form.cleaned_data['score']
                 my_review.content = form.cleaned_data['content']
                 my_review.save()
+                
     else:
         if my_review is None:
             form = ReviewForm()
         else:
             form = ReviewForm(initial = {'score':my_review.score, 'content':my_review.content})
 
+
+    # 리뷰 목록 출력
+    review_list = Review.objects.filter(game=game_id)
+
+    #리뷰에 Thumb 추가해서 reviews 리스트에 추가
+    for item in review_list:
+        tu = ThumbUpDown.objects.filter(review=item, thumb_up_down=1).count()
+        td = ThumbUpDown.objects.filter(review=item, thumb_up_down=-1).count()
+
+        reviews.append({'review': item, 'thumbUp': tu, 'thumbDown': td})
+
+    context['review_list'] = reviews
     context['reviewform'] = form
 
     return render(request, 'Gamers/game_viewer.html', context)
