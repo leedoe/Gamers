@@ -18,10 +18,8 @@
 
     <div class="col s12 input-field">
         {{ reviewform.content.errors }}
-        <label for="{{ reviewform.content.id_for_label }}">
-            내용
-        </label>
-        <textarea class="materialize-textarea" id="id_content" name="content"></textarea>
+        <textarea class="materialize-textarea" id="id_content" name="content" placeholder="리뷰 입력...">{% if reviewform.content is None %}{{ reviewform.content.value }}{% endif %}</textarea>
+        <label for="{{ reviewform.content.id_for_label }}">내용</label>
     </div>
 
     <div class="col s12">
@@ -29,3 +27,7 @@
             <i class="material-icons right">send</i>
         </button>
     </div>
+
+<script>
+    $('#id_content').trigger('autoresize');
+</script>

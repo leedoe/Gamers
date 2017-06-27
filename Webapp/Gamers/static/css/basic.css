@@ -101,3 +101,15 @@ div.myreview {
     padding-bottom: 10px;
     border-radius: 5px;
 }
+
+input.reviewstar {
+    display:inline-block;
+}
+
+.block {
+    display: inline-block;
+}
+
+hr {
+    border-color: #bdbdbd;
+}

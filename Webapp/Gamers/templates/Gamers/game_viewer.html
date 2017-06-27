@@ -53,7 +53,7 @@
         </div>
     </div>
     -->
-    <div class="row grey lighten-5 z-depth-1 gameinfo">
+    <div class="row gameinfo">
         <div class="col s12 l7 gamepic">
             <img class="gameimage" src="{{ screenshot }}">
             <div class="rate">
@@ -116,6 +116,7 @@
             </table>
         </div>
     </div>
+    <hr>
     {% if user.is_authenticated%}
     <!--
     <div class="my_review">
@@ -126,21 +127,47 @@
         </form>
     </div>
     -->
-    <div class="row grey lighten-5 z-depth-1 myreview">
-    {% include 'formTemplate/reviewForm.html' %}
+    <div class="row myreview">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% include 'formTemplate/reviewForm.html' %}
+        </form>
     </div>
+    <hr>
     {% endif %}
-    <div class="review_list">
-        <h1>리뷰</h1>
-        {% for item, thumbUp, thumbDown in review_list %}
-            <div class="review">
-                <h3>{{ item.user }}</h3>
-                <input type="number" class="rating" 
-				    data-min="0" data-max="10" data-step="1"
-				    data-show-clear='false' data-show-caption='false'
-				    value="{{ item.score }}" data-size='xs'>
-                <p>{{ item.content }}</p>
+    <div class="review_list ">
+        {% for item in review_list %}
+        <div class="row">
+            <div class="col s12">
+                <div class="review">
+                    <div class="row">
+                        <div class="col s12 l3">
+                            <div class="block">
+                                <img class="circle" src="{{ item.review.user.socialaccount_set.all.0.get_avatar_url }}" width="50px">
+                            </div>
+                            <div class="block">
+                                <span>{{ item.review.user }}<span>
+                            </div>
+                        </div>
+                        <div class="col s12 l9">
+                            <div class="block">
+                                <input type="number" class="rating reviewstar" 
+                                    data-min="0" data-max="10" data-step="1"
+                                    data-show-clear='false' data-show-caption='false'
+                                    value="{{ item.review.score }}" data-size='xs'>
+                            </div>
+                            <div class="thumb right valign block">
+                                <i class="material-icons md-dark valign">thumb_up</i>{{ my_review.thumbUp }}
+                            </div>
+                            <div class="thumb right valign block">
+                                <i class="material-icons md-dark valign">thumb_down</i>{{ my_review.thumbDown }}
+                            </div>
+                            <p>{{ item.review.content }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
         {% endfor %}
     </div>
 </div>
