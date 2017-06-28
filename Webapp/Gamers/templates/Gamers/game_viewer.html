@@ -54,17 +54,21 @@
     </div>
     -->
     <div class="row gameinfo">
-        <div class="col s12 l7 gamepic">
+        <div class="col s12 l6 gamepic">
             <img class="gameimage" src="{{ screenshot }}">
-            <div class="rate">
-                <input type="number" class="rating"
-                    data-min="0" data-max="10" data-step="1"
-                    data-show-clear="false" data-show-caption="false"
-                    value="{{ rating }}" data-size="xs">
-            </div>
         </div>
-        <div class="col s12 l5">
+        <div class="col s12 l6">
             <table>
+                <tr>
+                    <td colspan="2">
+                        <div class="rate">
+                        <input type="number" class="rating"
+                            data-min="0" data-max="10" data-step="1"
+                            data-show-clear="false" data-show-caption="false"
+                            value="{{ rating }}" data-size="xs">
+                        </div>
+                    </td>
+                </tr>
                 <tr>
                     <th>게임명</th>
                     <td>{{ game.title }}</td>
@@ -156,12 +160,24 @@
                                     data-show-clear='false' data-show-caption='false'
                                     value="{{ item.review.score }}" data-size='xs'>
                             </div>
+                            <!-- 좋아요 기능 나중에 추가하기
                             <div class="thumb right valign block">
-                                <i class="material-icons md-dark valign">thumb_up</i>{{ my_review.thumbUp }}
+                                <form name="thumbDown" method="POST" action="#">
+                                    <input type="hidden" name="thumb" value="-1">
+                                    <input type="hidden" name="game_id" value="{{ game.id }}">
+                                    <input type="hidden" name="review_id" value="{{ item.review.id }}">
+                                </form>
+                                <i class="material-icons md-dark valign">thumb_down</i>{{ item.thumbDown }}
                             </div>
                             <div class="thumb right valign block">
-                                <i class="material-icons md-dark valign">thumb_down</i>{{ my_review.thumbDown }}
+                                <form name="thumbUp" method="POST" action="#">
+                                    <input type="hidden" name="thumb" value="1">
+                                    <input type="hidden" name="game_id" value="{{ game.id }}">
+                                    <input type="hidden" name="review_id" value="{{ item.review.id }}">
+                                </form>
+                                <a id=href='#'><i class="material-icons md-dark valign">thumb_up</i></a>{{ item.thumbUp }}
                             </div>
+                            -->
                             <p>{{ item.review.content }}</p>
                         </div>
                     </div>
@@ -175,5 +191,7 @@
 <script>
     $('.rating').rating({displayOnly:true});
     $('.input_rating').rating();
+
+
 </script>
 {% endblock %}

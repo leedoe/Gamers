@@ -192,6 +192,8 @@ def save_object(content):
             if item['homepage'] != None:
                 obj.homepage = item['homepage']
             obj.save()
+            print(" pass")
+            continue
         else:
             if item['homepage'] != None:
                 obj.homepage = item['homepage']
@@ -234,7 +236,7 @@ def save_object(content):
 with open('./gamelist.json', 'r') as f:
         gamelist = json.load(f)
 
-game_list = get_game_data(get_appid_steam(100, 200, gamelist))
+game_list = get_game_data(get_appid_steam(1, 5, gamelist))
 gamelist.update(game_list)
 
 with open("./gamelist.json", 'w') as f:
