@@ -3,14 +3,6 @@
 {% block content %}
 <div class="container">
     <h1>{{ user }}의 프로필</h1>
-    <!--
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit">
-    </form>
-    -->
-    <!--<img src="{{ user.socialaccount_set.all.first.get_avatar_url }}">-->
     <table>
         <tr>
             <th>닉네임</th>
@@ -23,5 +15,25 @@
     </table>
 
     <a href="{% url 'modi' %}"><button class="btn">닉네임 수정</button></a>
+
+    <hr>
+
+    <table>
+        <thead>
+            <tr>
+                <th>게임</th>
+                <th>점수</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in myreview %}
+            <tr>
+                <td><a href="/game/{{ item.game.id }}">{{ item.game.title }}</a></td>
+                <td>{{ item.score }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 </div>
 {% endblock %}

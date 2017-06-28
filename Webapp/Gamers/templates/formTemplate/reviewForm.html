@@ -8,17 +8,19 @@
             </label>
             {{ reviewform.score }}
         </div>
-        <div class="thumb right valign">
-            <i class="material-icons md-dark valign">thumb_up</i>{{ my_review.thumbUp }}
-        </div>
+        <!-- 좋아요 기능 나중에 추가하기 
         <div class="thumb right valign">
             <i class="material-icons md-dark valign">thumb_down</i>{{ my_review.thumbDown }}
         </div>
+        <div class="thumb right valign">
+            <i class="material-icons md-dark valign">thumb_up</i>{{ my_review.thumbUp }}
+        </div>
+        -->
     </div>
 
     <div class="col s12 input-field">
         {{ reviewform.content.errors }}
-        <textarea class="materialize-textarea" id="id_content" name="content" placeholder="리뷰 입력...">{% if reviewform.content is None %}{{ reviewform.content.value }}{% endif %}</textarea>
+        <textarea class="materialize-textarea" id="id_content" name="content" placeholder="리뷰 입력...">{% if reviewform.content is not None %}{{ reviewform.content.value }}{% endif %}</textarea>
         <label for="{{ reviewform.content.id_for_label }}">내용</label>
     </div>
 

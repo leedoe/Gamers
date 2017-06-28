@@ -118,8 +118,37 @@ def game_viewer(request, game_id):
 
 
 def game_list(request):
+    # 검색 기능
+    gametitle = {}
+    developername = {}
+    publishername = {}
+    genrename = {}
+    tagname = {}
+    for item in Game.objects.all().order_by('title'):
+        gametitle[item.title] = None
+
+    for item in Developer.objects.all().order_by('name'):
+        developername[item.name] = None
+
+    for item in Publisher.objects.all().order_by('name'):
+        publishername[item.name] = None
+
+    for item in Genre.objects.all().order_by('name'):
+        genrename[item.name] = None
+    
+    for item in Tag.objects.all().order_by('name'):
+        tagname[item.name] = None
+
+    autocomplete_data = {
+        'gametitle': json.dumps(gametitle),
+        'developername': json.dumps(developername),
+        'publishername': json.dumps(publishername),
+        'genrename': json.dumps(genrename),
+        'tagname': json.dumps(tagname),
+    }
+    
     gameandscore = []
-    game_list = Game.objects.filter(authen=True).order_by('-release_date')
+    game_list = Game.objects.filter(authen=True).order_by('id')
     paginator = Paginator(game_list, 15)
 
     page = request.GET.get('page')
@@ -156,7 +185,12 @@ def game_list(request):
     page_end = page_start + 5
     if page_end > paginator.num_pages:
             page_end = paginator.num_pages + 1
-    return render(request, 'Gamers/gamelist.html', {'gameandscore': gameandscore, 'pagination': contacts, 'range': range(page_start, page_end)})
+
+
+
+    
+
+    return render(request, 'Gamers/gamelist.html', {'gameandscore': gameandscore, 'pagination': contacts, 'range': range(page_start, page_end), 'autocomplete_data': autocomplete_data})
 """
     gameandscore = []
 
@@ -183,6 +217,7 @@ def game_list(request):
 
 
 def game_search(request):
+    print('game_search')
     contacts = None
     gameandscore = []
     searched_list = None
@@ -271,4 +306,3 @@ def game_search(request):
 
         return render(request, 'Gamers/game_search.html', {'isContent': True, 'gameandscore': gameandscore, 'pagination': contacts, 'range': range(page_start, page_end), 'inputitem': inputitem, 'autocomplete_data': autocomplete_data})
     return render(request, 'Gamers/game_search.html', {'isContent': False, 'autocomplete_data': autocomplete_data})
-    

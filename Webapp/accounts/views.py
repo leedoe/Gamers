@@ -5,6 +5,7 @@ from django.conf import settings
 from allauth.socialaccount.models import SocialApp
 from allauth.socialaccount.templatetags.socialaccount import get_providers
 from .forms import UsernameEditForm
+from Gamers.models import Review
 
 
 def login(request):
@@ -26,7 +27,10 @@ def login(request):
 
 @login_required
 def profile(request):
-    return render(request, 'accounts/profile.html')
+    myreview = Review.objects.filter(user=request.user)
+    print(myreview)
+
+    return render(request, 'accounts/profile.html', {'myreview': myreview})
 
 
 @login_required
@@ -39,8 +43,7 @@ def modify_profile(request):
             form.save()
 
             return redirect("profile")
-
     else:
         form = UsernameEditForm(initial = {'username': user.username})
 
-    return render(request, 'accounts/modi_profile.html', {'form': form})
+    return render(request, 'accounts/modi_profile.html', {'form': form, 'myreview': myreview})

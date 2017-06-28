@@ -12,6 +12,36 @@
 {% block content %}
 <div class="container">
     <div class="content">
+        <div class="row">
+            <div class="col s12">
+                <form method="GET" name="gamesearch" action="/gamesearch/">
+                    <input type="hidden" value="1" name="page">
+                    <div class="row searchpanel">
+                        <div class="input-field col s3">
+                            <select id="section" name="section">
+                                <option value="" disabled selected>선택해 주세요</option>
+                                <option value="gam_name">게임명</option>
+                                <option value="dev_name">개발사</option>
+                                <option value="pub_name">제공사</option>
+                                <option value="gen_name">장르</option>
+                                <option value="tag_name">태그</option>
+                            </select>
+                            <label>검색 분류</label>
+                        </div>
+                        <div class="input-field col s7">
+                            <input type="text" id="autocomplete-input" class="autocomplete" name="item">
+                            <label for="autocomplete-input">검색어</label>
+                        </div>
+                        <div class="input-field col s2">
+                            <button class="btn waves-effect waves-light" type="submit">
+                                검색
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         {% for games in gameandscore %}
         <div class="row">
             {% for item in games %}
@@ -62,6 +92,43 @@
 </div>
 
 <script>
-    $('.rating').rating({displayOnly:true});
+    var auto;
+    var selected;
+    $(document).ready(function(){
+        $('select').material_select();
+
+        selected = $('#section')
+        $('#section').on('change', function(e){
+            if(selected.val() == 'gam_name'){
+                auto = $('input.autocomplete').autocomplete({
+                    data : {{ autocomplete_data.gametitle|safe }},
+                    minLength: 3,
+                });
+            }else if(selected.val() == 'dev_name'){
+                auto = $('input.autocomplete').autocomplete({
+                    data : {{ autocomplete_data.developername|safe }},
+                    minLength: 3,
+                });
+            }else if(selected.val() == 'pub_name'){
+                auto = $('input.autocomplete').autocomplete({
+                    data : {{ autocomplete_data.publishername|safe }},
+                    minLength: 3,
+                });
+            }else if(selected.val() == 'gen_name'){
+                auto = $('input.autocomplete').autocomplete({
+                    data : {{ autocomplete_data.genrename|safe }},
+                    minLength: 2,
+                });
+            }else if(selected.val() == 'tag_name'){
+                auto = $('input.autocomplete').autocomplete({
+                    data : {{ autocomplete_data.tagname|safe }},
+                    minLength: 2,
+                });
+            }
+            
+        });
+
+        $('.rating').rating({displayOnly:true});
+    });
 </script>
 {% endblock %}
