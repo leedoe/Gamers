@@ -55,6 +55,7 @@ def game_viewer(request, game_id):
     screenshot = Screenshot.objects.get(game=game_id).screenshot_url
     reviews = []
     myReview = {}
+    my_review = None
 
     # 사용자가 인증되었으면
     if request.user.is_authenticated == True:
