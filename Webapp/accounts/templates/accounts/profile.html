@@ -1,4 +1,13 @@
 {% extends 'Gamers/base/base_template.html' %}
+{% load staticfiles %}
+
+{% block css %}
+<link href="{% static "starrating/css/star-rating.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+<script src="{% static "starrating/js/star-rating.js" %}"></script>
+{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -22,18 +31,36 @@
         <thead>
             <tr>
                 <th>게임</th>
-                <th>점수</th>
+                <th>내점수</th>
+                <th>평균점수</th>
             </tr>
         </thead>
         <tbody>
-            {% for item in myreview %}
+            {% for item in myreviewlist %}
             <tr>
-                <td><a href="/game/{{ item.game.id }}">{{ item.game.title }}</a></td>
-                <td>{{ item.score }}</td>
+                <td><a href="/game/{{ item.myreview.game.id }}">{{ item.myreview.game.title }}</a></td>
+                <td>
+                    <input type="number" class="rating reviewstar" 
+                                    data-min="0" data-max="10" data-step="1"
+                                    data-show-clear='false' data-show-caption='false'
+                                    value="{{ item.myreview.score }}" data-size='xs'>
+                </td>
+                <td>
+                    <input type="number" class="rating reviewstar" 
+                                    data-min="0" data-max="10" data-step="1"
+                                    data-show-clear='false' data-show-caption='false'
+                                    value="{{ item.gamescore }}" data-size='xs'>
+                </td>
+
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
 </div>
+<script>
+    $(document).ready(function(){
+        $('.rating').rating({displayOnly:true});
+    });
+</script>
 {% endblock %}

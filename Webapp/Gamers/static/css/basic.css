@@ -113,3 +113,7 @@ input.reviewstar {
 hr {
     border-color: #000;
 }
+
+span.username {
+    padding: 5px;
+}
