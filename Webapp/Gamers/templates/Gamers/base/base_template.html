@@ -6,12 +6,14 @@
 	<!--<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">-->
 	<title>Gamers</title>
 
-
+    <script src="https://use.fontawesome.com/b48590ad28.js"></script>
     <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
     <link href="{% static "bootstrap/css/bootstrap-theme.css" %}" rel="stylesheet">
     <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="{% static "materialize/css/materialize.css"%}" type="text/css" rel="stylesheet" media="screen, projection">
+    <link href="{% static "materialize/materialize-social.css" %}" type="text/css" rel="stylesheet">
     <link href="{% static "css/basic.css" %}" type="text/css" rel="stylesheet">
+
     {% block css%}
     {% endblock %}
 </head>
@@ -48,8 +50,8 @@
 
 <ul id="dropdown1" class="dropdown-content">
     {% if user.is_anonymous %}
-    <li><a href="/accounts/facebook/login/">FACEBOOK</a></li>
-    <li><a href="/accounts/google/login/">GOOGLE</a></li>
+    <li><a href="/accounts/facebook/login/"><i class="fa fa-facebook"></i>FACEBOOK으로 로그인</a></li>
+    <li><a href="/accounts/google/login/"><i class="fa fa-google"></i>GOOGLE로 로그인</a></li>
     {% else %}
     <li><a href="/accounts/profile/">PROFILE</a></li>
     <li><a href="/accounts/logout/?next=/">LOGOUT</a></li>
