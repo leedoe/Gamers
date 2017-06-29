@@ -82,8 +82,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'reviewer.wsgi.application'
 
 # LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/pagelist/?page=1'
-LOGOUT_REDIRECT_URL = '/pagelist/?page=1'
+LOGIN_REDIRECT_URL = '/gamelist/?page=1'
+LOGOUT_REDIRECT_URL = '/gamelist/?page=1'
 
 
 
