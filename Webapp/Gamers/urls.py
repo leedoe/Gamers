@@ -19,7 +19,7 @@ from . import views
 urlpatterns = [
     url(r'^accounts/', include('accounts.urls')),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^$', views.main, name='main'),
+    # url(r'^$', views.main, name='main'),
     url(r'^register/$', views.register_game, name='register_game'),
     url(r'^game/(?P<game_id>\d+)/$', views.game_viewer, name='game_viewer'),
     url(r'^gamelist/$', views.game_list, name='game_list'),

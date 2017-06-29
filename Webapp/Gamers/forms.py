@@ -38,7 +38,8 @@ class GameForm(ModelForm):
         obj = Game(
             title=title,
             release_date=release_date,
-            homepage=homepage,)
+            homepage=homepage,
+            authen=0)
         obj.save()
 
         for item in developers:

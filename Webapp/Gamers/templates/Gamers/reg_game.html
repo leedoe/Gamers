@@ -24,4 +24,15 @@
 		</form>
 	</div>
 </div>
+
+{% if messages %}
+<script>
+	
+	$(document).ready(function(){
+		{% for message in messages %}
+		Materialize.toast('{{ message }}', 4000)
+		{% endfor %}
+	});
+</script>
+{% endif %}
 {% endblock %}

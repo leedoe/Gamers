@@ -3,6 +3,7 @@ from django.template.context import RequestContext
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg, Q
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import Game, Developer, Publisher, Platform, Genre, Review, Screenshot, Tag, ThumbUpDown
 from .forms import GameForm, ReviewForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
@@ -40,11 +41,13 @@ def register_game(request):
             form.authen = False
             temp = form.save()
 
-            return redirect('/game/' + str(temp.pk))
+            messages.success(request, '관리자 확인 후 등록됩니다.')
+            # return redirect('/game_list/?page=1')
+            return render(request, 'Gamers/reg_game.html', {'form': GameForm()})
     else:
         form = GameForm()
 
-    return render(request, 'Gamers/reg_game.html', {'form': form, 'page_title': 'REGISTER'})
+    return render(request, 'Gamers/reg_game.html', {'form': form})
 
 
 def game_viewer(request, game_id):
