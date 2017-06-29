@@ -13,6 +13,7 @@
 {% block content %}
 <div class="container">
     <form method="GET" name="gamesearch">
+        {% csrf_token %}
         <input type="hidden" value="1" name="page">
         <div class="row searchpanel">
             <div class="input-field col s3">
