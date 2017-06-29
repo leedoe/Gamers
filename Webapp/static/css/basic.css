@@ -1,0 +1,119 @@
+div.left-menu {
+    background-color: red;
+    float: left;
+    height: 100%;
+    width: 20em;
+    position: fixed;
+}
+
+li.account-info {
+    height: 56px;
+    line-height: 56px;
+    padding: 0 15px;
+}
+
+@media only screen and (min-width: 601px) {
+    li.account-info {
+        height: 64px;
+        line-height: 64px;
+        padding: 0 15px;
+    }   
+}
+
+div.main-body {
+    margin-left: 300px;
+}
+
+div.nav {
+    background-color: gray;
+    height: 100%
+}
+
+img.avatar {
+    height: 50px;
+}
+
+.material-icons.md-light {
+    display: inline-block;
+    text-align: right;
+    vertical-align: middle;
+    padding: 15px;
+    color: rgba(255, 255, 255, 1); 
+}
+
+.material-icons.md-dark{
+    color: rgba(0, 0, 0, 0.54);
+}
+
+li.account-info a {
+    width: auto;
+    height: auto;
+    display: inline-block;
+}
+
+div.container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+div.page_div {
+    text-align: center;
+}
+
+div.searchpanel {
+    border-radius: 5px;
+}
+
+div.content {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+div.gameinfo {
+    padding-top: 10px;
+    border-radius: 5px;
+}
+
+div.gamepic {
+    text-align: center;
+}
+
+img.gameimage {
+    width:100%;
+}
+
+@media only screen and (max-width: 992px) {
+    div.main-body {
+        margin-left: 0px;
+    }
+}
+
+div.thumb {
+    display:inline-block;
+}
+
+div.valign {
+    vertical-align: middle;
+}
+
+div.myreview {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+}
+
+input.reviewstar {
+    display:inline-block;
+}
+
+.block {
+    display: inline-block;
+}
+
+hr {
+    border-color: #000;
+}
+
+span.username {
+    padding: 5px;
+}
