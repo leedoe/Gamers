@@ -5,8 +5,7 @@ from . import views
 
 urlpatterns = [
     url(r'^login/$', views.login, name='login'),
-    url(r'^logout/$', auth_views.logout, name='logout',
-        kwargs={'next_page': settings.LOGIN_URL}),
+    url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^profile/$', views.profile, name='profile'),
     url(r'^modi_profile/$', views.modify_profile, name='modi'),
 ]
