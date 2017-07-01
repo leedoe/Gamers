@@ -1,3 +1,4 @@
+<!--
 <div id='div_{{ name }}' class='taginput-container'>
     <input type="text" name='{{ name }}' data-provide="typeahead">
 </div>
@@ -8,4 +9,18 @@ var {{ name }} = $('#div_{{ name }} input');
         source: {{ select_options|safe }}
     }
 });
+</script>
+-->
+<div id="{{name}}" class="chips chips-autocomplete"></div>
+
+<script>
+    $(document).ready(function(){
+        $('#{{name}}').material_chip({
+            autocompleteOptions: {
+                data: {{ select_options|safe }},
+                limit:Infinity,
+                minLength:2
+            }
+        });
+    });
 </script>
