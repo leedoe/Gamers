@@ -20,7 +20,7 @@
 
     <div class="col s12 input-field">
         {{ reviewform.content.errors }}
-        <textarea class="materialize-textarea" id="id_content" name="content" placeholder="리뷰 입력...">{% if reviewform.content is not None %}{{ reviewform.content.value }}{% endif %}</textarea>
+        <textarea class="materialize-textarea" id="id_content" name="content" placeholder="리뷰 입력...">{% if reviewform.content.value is not None %}{{ reviewform.content.value }}{% endif %}</textarea>
         <label for="{{ reviewform.content.id_for_label }}">내용</label>
     </div>
 
