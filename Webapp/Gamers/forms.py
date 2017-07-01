@@ -58,7 +58,7 @@ class GameForm(ModelForm):
             obj.genres.add(temp)
 
         return obj
-        
+
 
     def __init__(self, *args, **kwargs):
         super(GameForm, self).__init__(*args, **kwargs)
@@ -80,3 +80,7 @@ class ReviewForm(ModelForm):
         widgets = {
             'score': StarRatingWidget
         }
+
+    def __init__(self, *args, **kwargs):
+        super(ReviewForm, self).__init__(*args, **kwargs)
+        self.fields['content'].required = False
