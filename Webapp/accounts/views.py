@@ -41,6 +41,7 @@ def profile(request):
 @login_required
 def modify_profile(request):
     user = request.user
+    originalname = request.user.username
     if request.method == 'POST':
         form = UsernameEditForm(request.POST, instance=user)
 
@@ -48,7 +49,9 @@ def modify_profile(request):
             form.save()
 
             return redirect("profile")
+        else:
+            user.username = originalname
     else:
         form = UsernameEditForm(initial = {'username': user.username})
 
-    return render(request, 'accounts/modi_profile.html', {'form': form, 'myreview': myreview})
+    return render(request, 'accounts/modi_profile.html', {'form': form})
