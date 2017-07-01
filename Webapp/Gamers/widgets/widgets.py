@@ -1,11 +1,16 @@
 from django import forms
 from django.template.loader import render_to_string
+import json
 
 
 class TagsInputWidget(forms.SelectMultiple):
     def render(self, name, value, attrs):
+        select_options = {}
+        for itemid, itemname in self.choices:
+            select_options[itemname] = None
+        
         context = {
-            'select_options': [item for item in self.choices],
+            'select_options': json.dumps(select_options),
             'name': name,
         }
 

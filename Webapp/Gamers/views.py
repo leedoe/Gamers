@@ -34,7 +34,6 @@ def main(request):
 
 def register_game(request):
     if request.method == 'POST':
-        #print(request.POST)
         form = GameForm(request.POST)
 
         if form.is_valid():
@@ -42,7 +41,6 @@ def register_game(request):
             temp = form.save()
 
             messages.success(request, '관리자 확인 후 등록됩니다.')
-            # return redirect('/game_list/?page=1')
             return render(request, 'Gamers/reg_game.html', {'form': GameForm()})
     else:
         form = GameForm()
@@ -190,38 +188,10 @@ def game_list(request):
     if page_end > paginator.num_pages:
             page_end = paginator.num_pages + 1
 
-
-
-    
-
     return render(request, 'Gamers/gamelist.html', {'gameandscore': gameandscore, 'pagination': contacts, 'range': range(page_start, page_end), 'autocomplete_data': autocomplete_data})
-"""
-    gameandscore = []
-
-    for item in game_list:
-        rating = Review.objects.filter(game=item).aggregate(Avg('score'))['score__avg']
-        if rating == None:
-            rating = 0
-
-        try:
-            screenshot = Screenshot.objects.get(game=item).screenshot_url
-        except:
-            screenshot = None
-
-        temp = {
-            'game': item,
-            'rating': rating,
-            'screenshot': screenshot
-        }
-        
-        gameandscore.append(temp)
-
-    gameandscore = [gameandscore[i:i+3] for i in range(0, len(gameandscore), 3)]
-"""
 
 
 def game_search(request):
-    print('game_search')
     contacts = None
     gameandscore = []
     searched_list = None

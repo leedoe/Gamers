@@ -16,7 +16,7 @@
 {% block content %}
 <div class="container">
 	<div>
-		<form method="POST" action="" id="form">
+		<form id="regform" method="POST" action="" id="form">
 			{% csrf_token %}
 			{{ form.as_p }}
 			<span class="red-text">관리자 검토 후 게임 목록에 등록됩니다.</span><br>
@@ -24,4 +24,58 @@
 		</form>
 	</div>
 </div>
+
+<script>
+$(document).ready(function() {
+	$('select').material_select();
+});
+
+$('#regform').submit(function(e){
+	var dev = $('#developers').material_chip('data');
+	var devlist = [];
+	dev.forEach(function(v, i){
+		devlist.push(v.tag);
+	});
+
+	var pub = $('#publishers').material_chip('data');
+	var publist = [];
+	pub.forEach(function(v, i){
+		publist.push(v.tag);
+	});
+
+	var pla = $('#platforms').material_chip('data');
+	var plalist = [];
+	pla.forEach(function(v, i){
+		plalist.push(v.tag);
+	});
+
+	var gen = $('#genres').material_chip('data');
+	var genlist = [];
+	gen.forEach(function(v, i){
+		genlist.push(v.tag);
+	});
+
+	var developers = $("<input>")
+						.attr('type', 'hidden')
+						.attr('name', 'developers')
+						.attr('value', devlist)
+						.appendTo('#regform')
+	var publishers = $("<input>")
+						.attr('type', 'hidden')
+						.attr('name', 'publishers')
+						.attr('value', publist)
+						.appendTo('#regform')
+	var platforms = $("<input>")
+						.attr('type', 'hidden')
+						.attr('name', 'platforms')
+						.attr('value', plalist)
+						.appendTo('#regform')
+	var genres = $("<input>")
+						.attr('type', 'hidden')
+						.attr('name', 'genres')
+						.attr('value', genlist)
+						.appendTo('#regform')
+	return true;
+});
+</script>
 {% endblock %}
