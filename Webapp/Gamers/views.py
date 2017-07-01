@@ -86,7 +86,7 @@ def game_viewer(request, game_id):
         if form.is_valid():
             if my_review is None:
                 review = Review(
-                    user = user,
+                    user = request.user,
                     game = game,
                     score = form.cleaned_data['score'], 
                     content = form.cleaned_data['content'])
