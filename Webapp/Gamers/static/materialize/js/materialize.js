@@ -4270,6 +4270,12 @@ if (jQuery) {
           if (self.hasAutocomplete &&
               $chips.find('.autocomplete-content.dropdown-content').length &&
               $chips.find('.autocomplete-content.dropdown-content').children().length) {
+
+            //Dojun custom
+            e.preventDefault();
+            self.addChip({tag: $target.val()}, $chips);
+            $target.val('');                
+            //end
             return;
           }
 

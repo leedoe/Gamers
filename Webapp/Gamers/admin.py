@@ -8,12 +8,23 @@ class GameAdmin(admin.ModelAdmin):
     def get_platforms(self, obj):
         return ",".join([p.name for p in obj.platforms.all()])
 
+class DeveloperAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+
+    search_fields = ['name',]
+
+
+class PublisherAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+
+    search_fields = ['name',]
+
 admin.site.register(Game, GameAdmin)
 admin.site.register(Review)
 admin.site.register(Platform)
-admin.site.register(Developer)
+admin.site.register(Developer, DeveloperAdmin)
 admin.site.register(Genre)
-admin.site.register(Publisher)
+admin.site.register(Publisher, PublisherAdmin)
 admin.site.register(Tag)
 admin.site.register(Screenshot)
 admin.site.register(ThumbUpDown)

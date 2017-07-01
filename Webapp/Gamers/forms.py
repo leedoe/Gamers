@@ -19,14 +19,13 @@ class GameForm(ModelForm):
 
     class Meta:
         model = Game
-        fields = ['title', 'release_date', 'homepage']
+        fields = ['title', 'release_date', 'homepage', 'developers', 'publishers', 'platforms', 'genres']
         widgets = {
             'release_date': DatePickerWidget,
         }
 
     def save(self, commit=True):
-        data = self.cleaned_data
-        print(data['developers'])
+        #data = self.cleaned_data
         title = self.cleaned_data['title']
         release_date = self.cleaned_data['release_date']
         homepage = self.cleaned_data['homepage']
@@ -59,18 +58,19 @@ class GameForm(ModelForm):
             obj.genres.add(temp)
 
         return obj
+        
 
     def __init__(self, *args, **kwargs):
         super(GameForm, self).__init__(*args, **kwargs)
         self.fields['title'].label = "게임명"
         self.fields['release_date'].label = "출시일"
         self.fields['homepage'].label = "홈페이지"
-        self.fields['developers'].label = "개발사 (태그는 ,(쉼표)로 구분해주세요.)"
-        self.fields['publishers'].label = "제공사 (태그는 ,(쉼표)로 구분해주세요.)"
-        self.fields['platforms'].label = "플랫폼 (태그는 ,(쉼표)로 구분해주세요.)"
-        self.fields['genres'].label = "장르 (태그는 ,(쉼표)로 구분해주세요.)"
+        #self.fields['developers'].label = "개발사 (태그는 ,(쉼표)로 구분해주세요.)"
+        #self.fields['publishers'].label = "제공사 (태그는 ,(쉼표)로 구분해주세요.)"
+        #self.fields['platforms'].label = "플랫폼 (태그는 ,(쉼표)로 구분해주세요.)"
+        #self.fields['genres'].label = "장르 (태그는 ,(쉼표)로 구분해주세요.)"
         self.fields['homepage'].widget.attrs['placeholder'] = "ex) http://test.com"
-        self.fields['developers'].widget.attrs['placeholder'] = "태그는 ,(쉼표)로 구분해주세요."
+        #self.fields['developers'].widget.attrs['class'] = 'browser-default'
 
 
 class ReviewForm(ModelForm):
