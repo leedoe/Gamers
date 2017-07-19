@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import urllib.request
 import requests
 import codecs
@@ -36,9 +35,14 @@ def get_appid_steam(start, end, gamelist):
             'a',
             class_='search_result_row ds_collapse_flag'
         )
-
+        
         for item in appid_row:
-            if item.find('span', class_='title').text not in gamelist:
+            try:
+                gametitle = item.find('span',class_='title').text
+            except:
+                continue
+
+            if gametitle not in gamelist:
                 appid.append(item['data-ds-appid'])
 
     return appid
@@ -138,24 +142,39 @@ def get_game_data(appid):
         f = urllib.request.urlopen(req).read().decode('utf-8')
         bs = BeautifulSoup(f, 'lxml')
 
-        title = bs.find('div', class_='apphub_AppName').text
-        """
-        if Game.objects.filter(title=title).exists():
-            print(str(num) + '/' + str(len(appid)))
-            num = num + 1
+        try:
+            title = bs.find('div', class_='apphub_AppName').text
+        except:
             continue
-        """
-        rw = bs.find('span', class_='date')
+
+        try:
+            rw = bs.find('span', class_='date')
+        except:
+            rw = None
+        
+        try:
+            homepage_raw = bs.find(
+                'a',
+                class_='linkbar',
+                attrs={'rel': 'noreferrer'}
+            )
+        except:
+            homepage_raw = None
+
         if rw is None:
             release_date = None
         elif len(rw.text) == 8:
             print(rw.text)
             release_date = convert_release_date_2(rw.text)
-        else:
+        elif len(rw.text) == 4:
+            print(rw.text)
+            release_date = rw.text + '0101'
+        elif len(rw.text) == 12:
             print(rw.text)
             release_date = convert_release_date(rw.text)
+        else:
+            release_date = None
 
-        homepage_raw = bs.find('a', class_='linkbar', attrs={'rel':'noreferrer'})
         if homepage_raw is not None:
             homepage = homepage_raw['href']
         else:
@@ -182,21 +201,25 @@ def get_game_data(appid):
         publishers = []
 
         for g in genres_raw:
-            genres.append(g.text.strip().replace(',', ' '))
+            genres.append(g.text.strip())
 
         for d in developers_raw:
-            developers.append(d.text.strip().replace(',', ' '))
+            developers.append(d.text.strip())
 
         for p in publishers_raw:
-            publishers.append(p.text.strip().replace(',', ' '))
+            publishers.append(p.text.strip())
 
         try:
-            screenshot = bs.find(
+            screenshotlist = []
+            screenshots = bs.findAll(
                 'a', 
                 class_='highlight_screenshot_link'
-            )['href'][43:].replace('1920x1080', '600x338')
+            )
+            
+            for screenshot in screenshots:
+                screenshotlist.append(screenshot['href'][43:].replace('1920x1080', '600x338'))
         except:
-            screenshot = None
+            screenshotlist = None
 
         tags = []
         for item in bs.find_all('a', class_='app_tag'):
@@ -210,7 +233,7 @@ def get_game_data(appid):
         content['genres'] = genres
         content['developers'] = developers
         content['publishers'] = publishers
-        content['screenshot'] = screenshot
+        content['screenshot'] = screenshotlist
         content['tags'] = tags
 
         content_list[title] = content
@@ -221,30 +244,19 @@ def get_game_data(appid):
 # Game모델 저장(genre, developer, publisher 관계연결), Screenshot모델 저장
 def save_object(content):
     for gametitle, item in content.items():
-        print(gametitle + ", ", end='')
-        if item['release_date'] is not None:
-            obj, created = Game.objects.update_or_create(
-                title=item['title'],
-                release_date=item['release_date']
-            )
-        else:
-            obj, created = Game.objects.update_or_create(
-                title=item['title']
-            )
+        obj, created = Game.objects.update_or_create(
+            title=item['title']
+        )
 
         if created is False:
-            # if item['screenshot'] != None:
-            #    screenshot = Screenshot.objects.get_or_create(game=obj)
-            #    screenshot.screenshot_url = item['screenshot']
-            #    screenshot.save()
-            if item['homepage'] is not None:
-                obj.homepage = item['homepage']
-            obj.save()
-            print(" pass")
+            print(gametitle + ", PASS")
             continue
         else:
             if item['homepage'] is not None:
                 obj.homepage = item['homepage']
+            if item['release_date'] is not None:
+                obj.release_date = item['release_date']
+            print(gametitle + ", SAVE")
             obj.save()
 
         for platform in item['platforms']:
@@ -267,6 +279,7 @@ def save_object(content):
             temp, created = Tag.objects.get_or_create(name=tag)
             obj.tags.add(temp)
 
+        """
         if Screenshot.objects.filter(game=obj).exists():
             if Screenshot.objects.get(game=obj).screenshot_url == 'http://www.visitcrickhowell.co.uk/wp-content/themes/cricwip/images/noimage_595.png' and item['screenshot'] != 'http://www.visitcrickhowell.co.uk/wp-content/themes/cricwip/images/noimage_595.png':
                 Screenshot.objects.get(game=obj).screenshot_url = item['screenshot']
@@ -275,6 +288,11 @@ def save_object(content):
                 Screenshot(game=obj).save()
             else:
                 Screenshot(screenshot_url=item['screenshot'], game=obj).save()
+        """
+
+        for screenshot in item['screenshot']:
+            if not Screenshot.objects.filter(game=obj, screenshot_url=screenshot).exists():
+                Screenshot(game=obj, screenshot_url=screenshot).save()
 
         print('Save object!')
 
@@ -282,8 +300,10 @@ def save_object(content):
 with open('./gamelist.json', 'r') as f:
         gamelist = json.load(f)
 
-game_list = get_game_data(get_appid_steam(1, 5, gamelist))
+gamelist = {}
+game_list = get_game_data(get_appid_steam(1, 100, gamelist))
 gamelist.update(game_list)
+
 
 with open("./gamelist.json", 'w') as f:
     json.dump(gamelist, f)
