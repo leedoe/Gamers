@@ -121,6 +121,21 @@
         </div>
     </div>
     <hr>
+    <div class='row'>
+        {% for sigame, screenshot in cb %}
+        <div class='col s4'>
+            <div class="card">
+                <div class="card-image">
+                    <img src="{{ screenshot.screenshot_url }}">
+                </div>
+                <div class="card-content">
+                    <span class="card-title"><a href="/game/{{ sigame.id }}/">{{ sigame.title }}</a></span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <hr>
     {% if user.is_authenticated%}
     <!--
     <div class="my_review">
