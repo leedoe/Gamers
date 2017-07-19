@@ -12,52 +12,17 @@
 
 {% block content %}
 <div class="container">
-    <!--
-    <div class="game">
-        <img src="{{ screenshot }}">
-        <div class="rate">
-            <input type="number" class="rating"
-                data-min="0" data-max="10" data-step="1"
-                data-show-clear="false" data-show-caption="false"
-                value="{{ rating }}" data-size="xs">
-        </div>
-        <div class="release_date">
-            Release_date: {{ game.release_date }}
-        </div>
-        <div class="homepage">
-            Homepage: <a href="{{ game.homepage }}" target="_blank">{{ game.homepage }}</a>
-        </div>
-        <div class="developer">
-            Developer:
-			{% for item in game.developers.all %}
-			{{ item }}
-			{% endfor %}
-        </div>
-        <div class="publisher">
-            Publisher:
-			{% for item in game.publishers.all %}
-			{{ item }}
-			{% endfor %}
-        </div>
-        <div class="platform">
-            Platform:
-			{% for item in game.platforms.all %}
-			{{ item }}
-			{% endfor %}
-        </div>
-        <div class="genre">
-            Genre:
-			{% for item in game.genres.all %}
-			{{ item }}
-			{% endfor %}
-        </div>
-    </div>
-    -->
     <div class="row gameinfo">
-        <div class="col s12 l6 gamepic">
-            <img class="gameimage" src="{{ screenshot }}">
+        <div class="col s12 l12">
+            <div class="carousel carousel-slider">
+            {% for screenshot in screenshots%}
+                <a class="carousel-item">
+                    <img src="{{ screenshot.screenshot_url }}">
+                </a>
+            {% endfor %}
+            </div>
         </div>
-        <div class="col s12 l6">
+        <div class="col s12 l12">
             <table>
                 <tr>
                     <td colspan="2">
@@ -206,6 +171,15 @@
 <script>
     $('.rating').rating({displayOnly:true});
     $('.input_rating').rating();
+
+    $(document).ready(function(){
+        //$('.carousel').carousel();
+        $('.carousel.carousel-slider').carousel({
+            indicators: true,
+            fullWidth: true,
+        });
+    });
+    
 
 
 </script>
