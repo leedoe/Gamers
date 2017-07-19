@@ -44,7 +44,7 @@ def contentbasedfiltering(targettitle):
 
     for count, game in rawgamelist:
         gameobject = Game.objects.get(title=game)
-        screenshot = Screenshot.objects.get(game=gameobject)
+        screenshot = Screenshot.objects.filter(game=gameobject)[0]
 
         recommendedgame.append((gameobject, screenshot))
         print(recommendedgame)

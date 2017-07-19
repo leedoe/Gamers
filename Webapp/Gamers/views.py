@@ -55,7 +55,7 @@ def game_viewer(request, game_id):
     rating = Review.objects.filter(game=game_id).aggregate(Avg('score'))['score__avg']
     if rating is None:
         rating = 0
-    screenshot = Screenshot.objects.get(game=game_id).screenshot_url
+    screenshots = Screenshot.objects.filter(game=game_id)
     reviews = []
     myReview = {}
     my_review = None
@@ -79,7 +79,7 @@ def game_viewer(request, game_id):
         'rating': rating,
         'review_list': reviews,
         'my_review': myReview,
-        'screenshot': screenshot,
+        'screenshots': screenshots,
     }
 
     if request.method == 'POST':
@@ -169,7 +169,8 @@ def game_list(request):
         if rating is None:
             rating = 0
 
-        screenshot = Screenshot.objects.get(game=item).screenshot_url
+        screenshot = Screenshot.objects.filter(game=item)[0].screenshot_url
+        print(screenshot)
 
         temp = {
             'game': item,
