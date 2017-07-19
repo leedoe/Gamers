@@ -7,6 +7,7 @@ from django.contrib import messages
 from .models import Game, Developer, Publisher, Platform, Genre, Review, Screenshot, Tag, ThumbUpDown
 from .forms import GameForm, ReviewForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from .contentbased import contentbasedfiltering
 import json
 
 
@@ -50,8 +51,9 @@ def register_game(request):
 
 def game_viewer(request, game_id):
     game = Game.objects.get(pk=game_id)
-    rating = Review.objects.filter(game = game_id).aggregate(Avg('score'))['score__avg']
-    if rating == None:
+    cb = contentbasedfiltering(game.title)
+    rating = Review.objects.filter(game=game_id).aggregate(Avg('score'))['score__avg']
+    if rating is None:
         rating = 0
     screenshot = Screenshot.objects.get(game=game_id).screenshot_url
     reviews = []
@@ -59,7 +61,7 @@ def game_viewer(request, game_id):
     my_review = None
 
     # 사용자가 인증되었으면
-    if request.user.is_authenticated == True:
+    if request.user.is_authenticated is True:
         try:
             my_review = Review.objects.get(game=game_id, user=request.user)
             tu = ThumbUpDown.objects.filter(review=my_review, thumb_up_down=1).count()
@@ -86,10 +88,10 @@ def game_viewer(request, game_id):
         if form.is_valid():
             if my_review is None:
                 review = Review(
-                    user = request.user,
-                    game = game,
-                    score = form.cleaned_data['score'], 
-                    content = form.cleaned_data['content'])
+                    user=request.user,
+                    game=game,
+                    score=form.cleaned_data['score'], 
+                    content=form.cleaned_data['content'])
                 review.save()
             else:
                 my_review.score = form.cleaned_data['score']
@@ -100,13 +102,12 @@ def game_viewer(request, game_id):
         if my_review is None:
             form = ReviewForm()
         else:
-            form = ReviewForm(initial = {'score':my_review.score, 'content':my_review.content})
-
+            form = ReviewForm(initial={'score': my_review.score, 'content': my_review.content})
 
     # 리뷰 목록 출력
     review_list = Review.objects.filter(game=game_id)
 
-    #리뷰에 Thumb 추가해서 reviews 리스트에 추가
+    # 리뷰에 Thumb 추가해서 reviews 리스트에 추가
     for item in review_list:
         tu = ThumbUpDown.objects.filter(review=item, thumb_up_down=1).count()
         td = ThumbUpDown.objects.filter(review=item, thumb_up_down=-1).count()
@@ -115,6 +116,7 @@ def game_viewer(request, game_id):
 
     context['review_list'] = reviews
     context['reviewform'] = form
+    context['cb'] = cb
 
     return render(request, 'Gamers/game_viewer.html', context)
 
@@ -164,7 +166,7 @@ def game_list(request):
 
     for item in contacts.object_list:
         rating = Review.objects.filter(game=item).aggregate(Avg('score'))['score__avg']
-        if rating == None:
+        if rating is None:
             rating = 0
 
         screenshot = Screenshot.objects.get(game=item).screenshot_url
@@ -179,7 +181,6 @@ def game_list(request):
 
     gameandscore = [gameandscore[i:i+3] for i in range(0, len(gameandscore), 3)]
 
-    
     if int(page) % 5 == 0:
         page_start = int(int(page) / 5 - 1) * 5 + 1
     else:
@@ -224,7 +225,7 @@ def game_search(request):
         'tagname': json.dumps(tagname),
     }
 
-    if request.GET.get('section') != None:
+    if request.GET.get('section') is not None:
         inputitem = {
             'section': request.GET.get('section'),
             'item': request.GET.get('item'),
