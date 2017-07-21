@@ -92,3 +92,4 @@ GamersVenv/
 
 # setting.py
 settings.py
+Webapp/settings.json
