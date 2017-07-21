@@ -1,0 +1,45 @@
+{% extends 'Gamers/base/base_template.html' %}
+
+{% load staticfiles %}
+
+{% block css %}
+<link href="{% static "starrating/css/star-rating.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block js %}
+<script src="{% static "starrating/js/star-rating.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="content">
+        <div class="row">
+            <div class="col s12 center-align">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            url: "/rcgame",
+            success: function(result){
+                $('.content').html(result)
+                $('.rating').rating({displayOnly:true});
+            }
+        });
+    });
+</script>
+{% endblock %}

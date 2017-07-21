@@ -47,6 +47,5 @@ def contentbasedfiltering(targettitle):
         screenshot = Screenshot.objects.filter(game=gameobject)[0]
 
         recommendedgame.append((gameobject, screenshot))
-        print(recommendedgame)
 
     return recommendedgame
