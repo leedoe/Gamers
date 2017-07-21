@@ -44,6 +44,7 @@ def get_appid_steam(start, end, gamelist):
 
             if gametitle not in gamelist:
                 appid.append(item['data-ds-appid'])
+                print(gametitle)
 
     return appid
 
@@ -89,18 +90,18 @@ def convert_release_date_2(release_date_raw):
     year = mdy[1]
 
     montonum = {
-        'Jan,': '01',
-        'Feb,': '02',
-        'Mar,': '03',
-        'Apr,': '04',
-        'May,': '05',
-        'Jun,': '06',
-        'Jul,': '07',
-        'Aug,': '08',
-        'Sep,': '09',
-        'Oct,': '10',
-        'Nov,': '11',
-        'Dec,': '12'
+        'Jan': '01',
+        'Feb': '02',
+        'Mar': '03',
+        'Apr': '04',
+        'May': '05',
+        'Jun': '06',
+        'Jul': '07',
+        'Aug': '08',
+        'Sep': '09',
+        'Oct': '10',
+        'Nov': '11',
+        'Dec': '12'
     }
 
     for month_name, value in montonum.items():
@@ -244,6 +245,7 @@ def get_game_data(appid):
 # Game모델 저장(genre, developer, publisher 관계연결), Screenshot모델 저장
 def save_object(content):
     for gametitle, item in content.items():
+        print(gametitle)
         obj, created = Game.objects.update_or_create(
             title=item['title']
         )
@@ -294,14 +296,13 @@ def save_object(content):
             if not Screenshot.objects.filter(game=obj, screenshot_url=screenshot).exists():
                 Screenshot(game=obj, screenshot_url=screenshot).save()
 
-        print('Save object!')
-
 
 with open('./gamelist.json', 'r') as f:
-        gamelist = json.load(f)
+        gamelist = json.load(f, encoding="utf-8")
 
-gamelist = {}
+
 game_list = get_game_data(get_appid_steam(1, 100, gamelist))
+save_object(game_list)
 gamelist.update(game_list)
 
 
@@ -310,7 +311,7 @@ with open("./gamelist.json", 'w') as f:
     # f.write(json.dumps(item))
 
 # print(gamelist)
-save_object(gamelist)
+
 
 # for item in game_list:
 #    if item['title'] == "PLAYERUNKNOWN'S BATTLEGROUNDS":
