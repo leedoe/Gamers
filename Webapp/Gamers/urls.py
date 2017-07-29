@@ -24,4 +24,8 @@ urlpatterns = [
     url(r'^game/(?P<game_id>\d+)/$', views.game_viewer, name='game_viewer'),
     url(r'^gamelist/$', views.game_list, name='game_list'),
     url(r'^gamesearch/$', views.game_search, name='game_search'),
+    url(r'^gamerc/$', views.game_recommendation_page,
+        name="game_recommendation_page"),
+    url(r'^rcgame/$', views.game_recommendation_cb,
+        name="game_recommendation_cb"),
 ]

@@ -1,0 +1,22 @@
+{% for sublist in gamelist %}
+<div class="row">
+    {% for gamelist in sublist %}
+    <div class="col s12 m12 l4 game_content">
+        <div class="card">
+            <div class="card-image">
+                <img src="{{ gamelist.screenshot.screenshot_url }}">
+            </div>
+            <div class="card-content">
+                <span class="card-title"><a href="/game/{{ gamelist.game.id }}/">{{ gamelist.game.title }}</a></span>
+                <!--<p>{{ item.rating }}</p>-->
+                <input type="number" class="rating" 
+                    data-min="0" data-max="10" data-step="1"
+                    data-show-clear='false' data-show-caption='false'
+                    value="{{ gamelist.score }}" data-size='xs'>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<hr>
+{% endfor %}
