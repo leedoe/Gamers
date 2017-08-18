@@ -9,6 +9,7 @@ from Gamers.models import Game, Genre, Tag, Review, Developer, Screenshot
 from django.contrib.auth.models import User
 from django.db.models import Avg
 
+
 def usercbf(username):
     with open('./gamelist.json', 'r') as f:
             gamelist = json.load(f)

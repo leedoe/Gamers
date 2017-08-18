@@ -4,13 +4,13 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Avg, Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.views import View
 from .models import Game, Developer, Publisher, Platform, Genre, Review, Screenshot, Tag, ThumbUpDown
 from .forms import GameForm, ReviewForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .contentbased import contentbasedfiltering
 from .usercbf import usercbf
 import json
-
 
 
 def login_page(request):
@@ -34,20 +34,24 @@ def main(request):
     return render(request, 'Gamers/main.html')
 
 
-def register_game(request):
-    if request.method == 'POST':
-        form = GameForm(request.POST)
+class RegisterGame(View):
+    form_class = GameForm
+    template_name = 'Gamers/reg_game.html'
 
+    def get(self, request):
+        form = self.form_class()
+
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
         if form.is_valid():
             form.authen = False
             temp = form.save()
 
-            messages.success(request, '관리자 확인 후 등록됩니다.')
-            return render(request, 'Gamers/reg_game.html', {'form': GameForm()})
-    else:
-        form = GameForm()
+            messages.success(request, '관리자 확인 후 등록됩니다')
 
-    return render(request, 'Gamers/reg_game.html', {'form': form})
+            return render(request, self.template_name, {'form': GameForm()})        
 
 
 def game_viewer(request, game_id):
@@ -104,7 +108,6 @@ def game_viewer(request, game_id):
             form = ReviewForm()
         else:
             form = ReviewForm(initial={'score': my_review.score, 'content': my_review.content})
-            print(form)
 
     # 리뷰 목록 출력
     review_list = Review.objects.filter(game=game_id)
@@ -120,8 +123,16 @@ def game_viewer(request, game_id):
     context['reviewform'] = form
     context['cb'] = cb
     
-
     return render(request, 'Gamers/game_viewer.html', context)
+
+
+class GameView(View):
+    def get(self, request):
+        
+        pass
+
+    def post(self, request):
+        pass
 
 
 def game_list(request):
