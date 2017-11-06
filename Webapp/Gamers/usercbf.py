@@ -9,13 +9,23 @@ from Gamers.models import Game, Genre, Tag, Review, Developer, Screenshot
 from django.contrib.auth.models import User
 from django.db.models import Avg
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2361a6267349eddd08c9a6f637abd9b10f8d9112
 def usercbf(username):
     with open('./gamelist.json', 'r') as f:
             gamelist = json.load(f)
 
+<<<<<<< HEAD
     tuser = User.objects.get(username=username)
 
     reviews = Review.objects.filter(user=tuser)
+=======
+    dojun = User.objects.get(username="도준이")
+
+    reviews = Review.objects.filter(user=dojun)
+>>>>>>> 2361a6267349eddd08c9a6f637abd9b10f8d9112
     reviewedgamelist = [x.game.title for x in reviews]
 
     utdict = {}
