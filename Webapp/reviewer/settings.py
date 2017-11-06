@@ -95,10 +95,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'GameReview',
-        'USER': 'leedoe',
-        'PASSWORD': 'ehwns0910',
-        'HOST': 'mysql-seoul.cqgbfdecijea.ap-northeast-2.rds.amazonaws.com',
-        'PORT': '3306',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
