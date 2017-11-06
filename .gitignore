@@ -94,3 +94,6 @@ GamersVenv/
 settings.py
 Webapp/settings.json
 Webapp/reviewer/settings.py
+
+# vscode
+.vscode
