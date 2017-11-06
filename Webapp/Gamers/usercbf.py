@@ -13,9 +13,9 @@ def usercbf(username):
     with open('./gamelist.json', 'r') as f:
             gamelist = json.load(f)
 
-    dojun = User.objects.get(username="도준이")
+    tuser = User.objects.get(username=username)
 
-    reviews = Review.objects.filter(user=dojun)
+    reviews = Review.objects.filter(user=tuser)
     reviewedgamelist = [x.game.title for x in reviews]
 
     utdict = {}

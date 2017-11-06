@@ -104,7 +104,6 @@ def game_viewer(request, game_id):
             form = ReviewForm()
         else:
             form = ReviewForm(initial={'score': my_review.score, 'content': my_review.content})
-            print(form)
 
     # 리뷰 목록 출력
     review_list = Review.objects.filter(game=game_id)
@@ -173,7 +172,6 @@ def game_list(request):
             rating = 0
 
         screenshot = Screenshot.objects.filter(game=item)[0].screenshot_url
-        print(screenshot)
 
         temp = {
             'game': item,
@@ -286,6 +284,7 @@ def game_search(request):
     return render(request, 'Gamers/game_search.html', {'isContent': False, 'autocomplete_data': autocomplete_data})
 
 
+@login_required
 def game_recommendation_page(request):
     user = request.user
 
@@ -296,6 +295,5 @@ def game_recommendation_cb(request):
     user = request.user
 
     gameslist = usercbf(user.username)
-    print(gameslist)
 
     return render(request, 'Gamers/ucbf.html', {'gamelist': gameslist})

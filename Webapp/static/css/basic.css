@@ -117,3 +117,7 @@ hr {
 span.username {
     padding: 5px;
 }
+
+div .carousel-slider{
+    height: 500px !important;
+}
